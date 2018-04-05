@@ -140,6 +140,27 @@
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-graph"></i> Stock Management <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="{{ route('stocks.index') }}" class="nav-link">
+                                    <i class="icon icon-graph"></i> Add Stock
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="icon icon-graph"></i> Stock Card
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
                             <i class="icon icon-energy"></i> Stock Cards <i class="fa fa-caret-left"></i>
                         </a>
 

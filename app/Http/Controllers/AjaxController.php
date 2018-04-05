@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Validator;
+use App\Product;
+use App\Stock;
 
 class AjaxController extends Controller
 {
@@ -37,5 +40,48 @@ class AjaxController extends Controller
     {
       # code...
       return response()->json([ 'success' => 1, 'data' => [1,2,3,4,5,6,7]]);
+    }
+
+    //chandiga work starts
+    public function saveProduct(Request $request)
+    {
+      $validator = Validator::make($request->all(), [
+        'date' => 'required|date',
+        'product_name' => 'required|string',
+        'stock_id' => 'required|integer',
+        'from' => 'required|string',
+        'voucher_no' => 'required|string',
+        'batch_number' => 'required|string',
+        'quantity' => 'required|integer|min:1',
+        'expiry_date' => 'required|date',
+
+    ]);
+
+
+    if ($validator->passes()) {
+      //update the new stock quantity
+        $stock = new Stock();
+        $stock = Stock::find($request->stock_id);
+        $stock->stock_quantity = ($request->quantity + $stock->stock_quantity);
+        $stock->save();
+
+        try {
+          $product = new Product();
+          $product->product_name = $request->product_name;
+          $product->transDate = $request->date;
+          $product->stock_id = $request->stock_id;
+          $product->from = $request->from;
+          $product->expiry_date = $request->expiry_date;
+          $product->voucher = $request->voucher_no;
+          $product->batch_no = $request->batch_number;
+          $product->quantity = $request->quantity;
+          $product->save();
+
+          return response()->json(['success'=>'Added new records.']);
+        } catch (\Exception $e) {
+          return response()->json(['error'=>$e->getMessage()]);
+        }
+    }
+    return response()->json(['errors'=>$validator->errors()->all()]);
     }
 }

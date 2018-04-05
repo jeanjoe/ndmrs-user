@@ -19,3 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('health_workers', 'AjaxController@ajaxUsers');
 Route::get('drug/{id}', 'AjaxController@showDrug');
+
+Route::post('products','AjaxController@saveProduct');
+Route::post('issued_stocks','AjaxController2@saveProduct');
