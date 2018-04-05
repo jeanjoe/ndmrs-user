@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/simple-line-icons/css/simple-line-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/fontawesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body class="sidebar-fixed header-fixed">
@@ -26,9 +27,9 @@
             <i class="fa fa-bars"></i>
         </a>
 
-        <div class="nav-item btn btn-info btn-sm">
+        <a href="{{ route('settings') }}" class="nav-item btn btn-info btn-sm">
           {{ strtoupper($currentUser->healthFacility->name .' - '. $currentUser->healthFacility->level) }}
-        </div>
+        </a>
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item d-md-down-none">
@@ -145,7 +146,7 @@
                         <ul class="nav-dropdown-items">
 
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('stock-books.index') }}" class="nav-link">
                                     <i class="icon icon-book-open"></i> Stock Book
                                 </a>
                             </li>
@@ -157,7 +158,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('stock-cards.index') }}" class="nav-link">
                                     <i class="icon icon-eye"></i> All Stock Cards
                                 </a>
                             </li>
@@ -224,9 +225,15 @@
 <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/popper.js/popper.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
 <script src="{{ asset('vendor/chart.js/chart.min.js') }}"></script>
 <script src="{{ asset('js/carbon.js') }}"></script>
 <script src="{{ asset('js/demo.js') }}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#dataTable').DataTable();
+} );
+</script>
 @yield('script')
 </body>
 </html>

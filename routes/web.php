@@ -21,5 +21,8 @@ Route::get('/reports', 'HomeController@reports')->name('reports');
 Route::resource('orders', 'OrderController');
 Route::get('/hospitals', 'HomeController@hospitals')->name('hospitals');
 
+Route::resource('stock-cards', 'StockCardController');
+Route::resource('stock-books', 'StockBookController');
+
 Route::get('/users', 'AjaxController@ajaxUsers');
 Route::post('/users', 'AjaxController@ajaxUsersSave');

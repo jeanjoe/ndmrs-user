@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-header bg-light">
 
-            NDMR - ORDERS
+            {{ strtoupper($currentUser->healthFacility->name) ." ". strtoupper($currentUser->healthFacility->level) }} - ORDERS
 
             <div class="card-actions">
                 <a href="{{ route('orders.create') }}" class="btn">
@@ -26,7 +26,7 @@
             <button type="button" onclick="loadUsers()" class="btn btn-sm btn-info" >Check Registered Users</button>
 
             <div class="text-danger">
-              <table class="table table-bordered">
+              <table id="dataTable" class="table table-bordered">
           			<thead>
         			    <tr>
             				<th>Name</th>
@@ -71,7 +71,7 @@
 
         $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
             e.preventDefault();
-            $(this).parent('div').remove(); 
+            $(this).parent('div').remove();
             x--;
         })
     });
