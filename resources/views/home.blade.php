@@ -26,8 +26,8 @@
                 <div class="card bg-success p-4">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="h4 d-block font-weight-normal mb-2">4</span>
-                            <span class="font-weight-light">STOCK CARDS</span>
+                            <span class="h4 d-block font-weight-normal mb-2">{{ number_format(count($drugs) ) }}</span>
+                            <span class="font-weight-light">Available Drugs</span>
                         </div>
 
                         <div class="h2 text-muted">
@@ -41,8 +41,8 @@
                 <div class="card bg-default p-4">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="h4 d-block font-weight-normal mb-2">900</span>
-                            <span class="font-weight-light">Total Orders</span>
+                            <span class="h4 d-block font-weight-normal mb-2">{{ number_format(count($orders) ) }}</span>
+                            <span class="font-weight-light">Drug Orders</span>
                         </div>
 
                         <div class="h2 text-muted">
@@ -56,8 +56,8 @@
                 <div class="card bg-primary p-4">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="h4 d-block font-weight-normal mb-2">32</span>
-                            <span class="font-weight-bolder">Health Facilities</span>
+                            <span class="h4 d-block font-weight-normal mb-2">{{ number_format(count($healthWorkers)) }}</span>
+                            <span class="font-weight-bolder">Health Workers</span>
                         </div>
 
                         <div class="h2 text-muted">

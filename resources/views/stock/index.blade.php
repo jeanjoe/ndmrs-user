@@ -21,23 +21,22 @@
                 <div class="row">
                     <div class="col-md-4">
                         {{ Form::label('name', 'Drug Name') }}
-                        <select class="form-control" name="name">
+                        <select class="form-control" name="drug">
                           <option value="">Select Drug</option>
                           @foreach($drugs as $drug)
                             <option value="{{ $drug->id }}">{{ $drug->name }}</option>
                           @endforeach
                         </select>
-                        @if( $errors->has('name'))
+                        @if( $errors->has('drug'))
                           <div class="text-danger">
-                            {{ $errors->first('name') }}
+                            {{ $errors->first('drug') }}
                           </div>
                         @endif
                     </div>
-                      {{ Form::hidden('health_facility', $currentUser->healthFacility->id , ['class' => 'form-control'] ) }}
 
                     <div class="col-md-4">
                         {{ Form::label('status', 'Status') }}
-                        {{ Form::select('status', ['Active'=>'Active', 'Deactive'=> 'Deactive'], 'A', ['class' => 'form-control'] ) }}
+                        {{ Form::select('status', ['1'=>'Active', '0'=> 'Deactive'], 'A', ['class' => 'form-control'] ) }}
 
                         @if( $errors->has('status'))
                           <div class="text-danger">
@@ -47,7 +46,7 @@
                     </div>
                     <div class="col-md-4">
                       {{ Form::label('submit', 'Click to Add')}}
-                      {{ Form::submit('Add New', ['class' => 'btn btn-primary btn-sm btn-block']) }}
+                      {{ Form::submit('Add New', ['class' => 'btn btn-primary btn-md btn-block']) }}
                     </div>
 
                 </div>
@@ -77,9 +76,9 @@
                       @foreach ($stocks as $key => $stock)
                         <tr>
                             <td>{{ ++$key }}</td>
-                            <td class="text-nowrap">{{ $stock->drug->name }}</td>
+                            <td class="text-nowrap">{{ $stock->drug->name or 'Not Found' }}</td>
                             <!-- <td class="text-nowrap">{{$stock->status}}</td> -->
-                            <td><strong class="badge badge-info rounded">{{$stock->stock_quantity}}</strong></td>
+                            <td><strong class="badge badge-info rounded"><span id="stockDrugQuantity"> <strong>{{ number_format($stock->stock_quantity) }}</strong> </span></span></strong></td>
                             <td>
                               <!-- <a href="#" class="btn btn-success btn-sm"> View </a> -->
                               <div class="btn-group">
@@ -122,24 +121,8 @@
                                 </div>
                             </td>
                             <td>
-                              <div class="btn-group">
-                                <!-- logic to determine whether we are activating or deactivating -->
-                                <?php
-                                $status = 'Deactive';
-                                if($stock->status == 'Deactive'){
-                                  $status = 'Activate';
-                                }
-                                ?>
-                                <button type="button" class="btn btn-success btn-sm">{{$stock->status}}</button>
-                                <button type="button" class="btn btn-success btn-sm  dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu">
-                                  <!-- then display the appriate link -->
-                                  <!-- <a class="dropdown-item" href="#">{{$status}}</a> -->
-                                  <a class="dropdown-item" href="#">{{$status}}</a>
-                                </div>
-                              </div>
+                              <button type="button" class="btn btn-success btn-sm">{{ $stock->status == true ? 'Active' : 'Inactive' }}</button>
+
                             </td>
 
                         </tr>
