@@ -10,10 +10,10 @@ Stock Book- {{ $currentUser->healthFacility->name }}
     <div class="card">
         <div class="card-header bg-light">
 
-            {{ $currentUser->healthFacility->name }} - Stock Stock Books
+            {{ $currentUser->healthFacility->name }} - View Stock Books
 
             <div class="card-actions">
-                <a href="{{ route('stock-cards.create') }}" class="btn">
+                <a href="{{ route('stock-books.create') }}" class="btn">
                     <i class="fa fa-plus-circle"></i>
                 </a>
 
@@ -24,10 +24,33 @@ Stock Book- {{ $currentUser->healthFacility->name }}
         </div>
 
         <div class="card-body">
-            Coming soon....
 
-            <button type="button" onclick="loadUsers()" class="btn btn-sm btn-info" >Check Registered Users</button>
-
+          <table class="table table-striped table-sm" id="dataTable">
+            <thead>
+              <th>#</th>
+              <th>Name</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Date Created</th>
+              <th>Actions</th>
+            </thead>
+            <tbody>
+              @forelse($stockBooks as $key =>  $stockBook)
+                <tr>
+                  <td>{{ ++$key }}</td>
+                  <td>{{ $stockBook['name'] }}</td>
+                  <td>{{ $stockBook['start_date'] }}</td>
+                  <td>{{ $stockBook['end_date'] }}</td>
+                  <td>{{ $stockBook['created_at'] }}</td>
+                  <td>Actions</td>
+                </tr>
+              @empty
+                <tr>
+                  <td colspan="5">No Stock Books exist</td>
+                </tr>
+              @endforelse
+            </tbody>
+          </table>
         </div>
     </div>
 @endsection

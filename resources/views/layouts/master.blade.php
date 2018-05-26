@@ -99,40 +99,41 @@
                         </a>
 
                         <ul class="nav-dropdown-items">
-
+                            @if( $currentUser->healthFacility->level == 'REFFERAL')
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="icon icon-target"></i> Referrals
                                 </a>
                             </li>
+                            @endif
 
+                            @if( $currentUser->healthFacility->level == 'REFFERAL' || $currentUser->healthFacility->level == 'HOSPITAL')
                             <li class="nav-item">
                                 <a href="{{ route('hospitals') }}" class="nav-link">
                                     <i class="icon icon-target"></i> Hospitals
                                 </a>
                             </li>
+                            @endif
 
+                            @if( $currentUser->healthFacility->level == 'REFFERAL' || $currentUser->healthFacility->level == 'HOSPITAL' || $currentUser->healthFacility->level == 'HCIV')
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="icon icon-target"></i> Health Centre II
                                 </a>
                             </li>
+                            @endif
 
+                            @if( $currentUser->healthFacility->level == 'REFFERAL' || $currentUser->healthFacility->level == 'HOSPITAL' || $currentUser->healthFacility->level == 'HCIV' || $currentUser->healthFacility->level == 'HCIII' )
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="icon icon-target"></i> Health Centre III
                                 </a>
                             </li>
+                            @endif
 
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="icon icon-target"></i> Health Centre IV
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="icon icon-target"></i> View All
                                 </a>
                             </li>
                         </ul>
@@ -140,7 +141,29 @@
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-graph"></i> Stock Management <i class="fa fa-caret-left"></i>
+                            <i class="icon icon-people"></i> Patients <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="{{ route('patients.create') }}" class="nav-link">
+                                    <i class="icon icon-plus"></i> Register Patient
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="{{ route('patients.index') }}" class="nav-link">
+                                    <i class="icon icon-graph"></i> Patient Reports
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-cloud-upload"></i> Stock Management <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
@@ -207,6 +230,12 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="icon icon-cloud-download"></i> Prescription
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="{{ route('settings') }}" class="nav-link">
                             <i class="icon icon-settings"></i> General Settings
                         </a>
@@ -222,14 +251,14 @@
                         <ul class="nav-dropdown-items">
 
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> Invoice
+                                <a href="{{ route('healthWorkers') }}" class="nav-link">
+                                    <i class="icon icon-people"></i> Health Workers
                                 </a>
                             </li>
 
                             <li class="nav-item">
                                 <a href="{{ route('settings') }}" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> Settings
+                                    <i class="icon icon-settings"></i> Settings
                                 </a>
                             </li>
                         </ul>

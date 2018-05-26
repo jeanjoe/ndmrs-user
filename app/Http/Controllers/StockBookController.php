@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\StockBook;
+use Auth;
+use App\User;
+use Validator;
 
 class StockBookController extends Controller
 {
@@ -13,7 +17,8 @@ class StockBookController extends Controller
      */
     public function index()
     {
-        return view('stock-books.index');
+        $stockBooks = StockBook::where('health_facility_id', Auth::user()->health_facility_id)->get();
+        return view('stock-books.index', compact('stockBooks'));
     }
 
     /**
@@ -34,7 +39,27 @@ class StockBookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+          'health_facility' => 'required',
+          'name' => 'required|alpha_num',
+          'start_date' => 'required|date',
+          'end_date' => 'required|date'
+          ])->validate();
+
+          try {
+
+            $stockBook = new StockBook();
+            $stockBook->name = $request['name'];
+            $stockBook->start_date = $request['start_date'];
+            $stockBook->end_date = $request['end_date'];
+            $stockBook->health_facility_id = Auth::user()->health_facility_id;
+            $stockBook->user_id = Auth::user()->id;
+            $stockBook->save();
+
+            return redirect()->back()->with(['message' => 'Data saved successfully']);
+          } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => 'Unable to save Data'])->withInput();
+          }
     }
 
     /**

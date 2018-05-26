@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Drug;
+use App\Order;
+use App\HealthWorker;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -31,12 +35,18 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        return view('home');
+        $healthWorkers = HealthWorker::where('health_facility_id', Auth::user()->id)->get();
+        $orders = Order::where('health_facility_id', Auth::user()->id)->get();
+        $drugs = Drug::all();
+        return view('home',  compact('healthWorkers', 'orders', 'drugs') );
     }
 
     public function hospitals()
     {
-        return view('home');
+        $drugs = Drug::where('level_of_care', 'HOSPITAL')->get();
+        $orders = Order::all();
+        $healthWorkers = HealthWorker::all();
+        return view('home', compact('drugs', 'orders', 'healthWorkers'));
     }
 
     public function settings()
@@ -44,5 +54,16 @@ class HomeController extends Controller
         return view('settings');
     }
 
-    
+    public function reports()
+    {
+        return view('reports.index');
+    }
+
+    public function healthWorkers()
+    {
+        $healthWorkers = User::with('healthFacility')->where('health_facility_id', Auth::user()->health_facility_id)->get();
+        return view('pages.healthWorkers', compact('healthWorkers'));
+    }
+
+
 }

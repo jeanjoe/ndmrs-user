@@ -14,20 +14,7 @@
             </div>
 
             <div class="card-body">
-
-              @if( session('success') )
-                <div class="alert alert-success">
-                  {{ session('success') }}
-                </div>
-              @endif
-
-
-              @if( session('error') )
-                <div class="alert alert-danger">
-                  {{ session('error') }}
-                </div>
-              @endif
-
+              @include('components.notifications')
               {{ Form::open([ 'route' => 'stocks.store', 'class' => 'form-horizontal']) }}
                 <div class="row">
                     <div class="col-md-6">
@@ -44,7 +31,7 @@
                           </div>
                         @endif
                     </div>
-                      {{ Form::hidden('health_facility', $currentUser->healthFacility->id , ['class' => 'form-control'] ) }}
+                    {{ Form::hidden('health_facility', $currentUser->healthFacility->id , ['class' => 'form-control'] ) }}
 
                     <div class="col-md-6">
                         {{ Form::label('status', 'Status') }}

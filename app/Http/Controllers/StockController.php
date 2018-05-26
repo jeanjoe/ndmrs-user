@@ -23,10 +23,11 @@ class StockController extends Controller
      */
     public function index()
     {
-        $stocks = Stock::where('health_facility_id', Auth::user()->health_facility_id)->get();
+        $stocks = Stock::with('drug')->where('health_facility_id', Auth::user()->health_facility_id)->get();
         $user_health_facility_id = Auth::user()->health_facility_id;
         $selected_drugs = Stock::where('health_facility_id', $user_health_facility_id)->pluck('drug_id');
         // $drugs = Drug::with('drug')->orderBy('name', 'asc')->pluck('name', 'id');
+        // $healthFacilityDrugs = Stock::where('health_facility_id', Auth)
         $drugs = DB::table('drugs')->whereNotIn('id', $selected_drugs )->get();
         return view('stock.index', compact('stocks', 'drugs'));
     }
@@ -40,8 +41,8 @@ class StockController extends Controller
     {
       $user_health_facility_id = Auth::user()->health_facility_id;
       $selected_drugs = Stock::where('health_facility_id', $user_health_facility_id)->pluck('drug_id');
-      // $drugs = Drug::with('drug')->orderBy('name', 'asc')->pluck('name', 'id');
-      $drugs = DB::table('drugs')->whereNotIn('id', $selected_drugs )->get();
+      $drugs = Drug::whereNotIn('id', $selected_drugs )->pluck('name', 'id');
+      // $drugs = DB::table('drugs')->whereNotIn('id', $selected_drugs )->get();
       return view('stock.create', compact('drugs'));
     }
 
@@ -55,8 +56,8 @@ class StockController extends Controller
     {
       $validator = Validator::make($request->all(), [
       'status' => 'required|string|max:10',
-      'health_facility' => 'required|integer',
-      'name' => 'required|integer|unique:stocks,health_facility_id,'.$request->health_facility,
+      'status' => 'required|boolean',
+      'drug' => 'required|integer|unique:stocks,health_facility_id,'.$request->health_facility,
 
     ]);
 
@@ -66,15 +67,16 @@ class StockController extends Controller
     try {
 
         $stock = new Stock();
-        $stock->health_facility_id = $request->health_facility ;
+        $stock->health_facility_id = Auth::user()->health_facility_id;
         $stock->status = $request->status;
-        $stock->drug_id = $request->name;
+        $stock->drug_id = $request->drug;
+        $stock->stock_quantity = 0;
         $stock->save();
 
         return back()->with('success', 'Data Insterted successfully');
 
       } catch (\Exception $e) {
-        return back()->with('error', 'Already Registered Stock')->withInput();
+        return back()->with('error', 'Already Registered Stock '. $e->getMessage())->withInput();
       }
     }
     public function store_product(Request $request)
