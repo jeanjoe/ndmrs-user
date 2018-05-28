@@ -27,7 +27,7 @@
             <i class="fa fa-bars"></i>
         </a>
 
-        <a href="{{ route('settings') }}" class="nav-item btn btn-info btn-sm">
+        <a href="{{ route('settings') }}" class="navbar-brand">
           {{ strtoupper($currentUser->healthFacility->name .' - '. $currentUser->healthFacility->level) }}
         </a>
 
