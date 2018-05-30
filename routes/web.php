@@ -30,5 +30,5 @@ Route::resource('health-facilities', 'HealthFacilityController')->except(['creat
 
 Route::get('/users', 'AjaxController@ajaxUsers');
 Route::post('/users', 'AjaxController@ajaxUsersSave');
-
 Route::get('health_workers', 'HomeController@healthWorkers')->name('healthWorkers');
+Route::get('health_facilities_under/{level}', 'HomeController@healthFacilitiesUnder')->name('healthFacilities.under');

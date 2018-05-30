@@ -8,6 +8,7 @@ use App\Drug;
 use App\Order;
 use App\HealthWorker;
 use Auth;
+use App\healthFacility;
 
 class HomeController extends Controller
 {
@@ -63,6 +64,11 @@ class HomeController extends Controller
     {
         $healthWorkers = User::with('healthFacility')->where('health_facility_id', Auth::user()->health_facility_id)->get();
         return view('pages.healthWorkers', compact('healthWorkers'));
+    }
+    public function healthFacilitiesUnder($level)
+    {
+      $healthFacilitiesUnder = healthFacility::with('healthSubDistrict')->where('level',$level)->get();
+      return view('health_facilities.index', compact('healthFacilitiesUnder'));
     }
 
 

@@ -101,7 +101,7 @@
                         <ul class="nav-dropdown-items">
                             @if( $currentUser->healthFacility->level == 'REFFERAL')
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('healthFacilities.under', 'REFFERAL') }}" class="nav-link">
                                     <i class="icon icon-target"></i> Referrals
                                 </a>
                             </li>
@@ -109,15 +109,15 @@
 
                             @if( $currentUser->healthFacility->level == 'REFFERAL' || $currentUser->healthFacility->level == 'HOSPITAL')
                             <li class="nav-item">
-                                <a href="{{ route('hospitals') }}" class="nav-link">
+                                <a href="{{ route('healthFacilities.under', 'hospital') }}" class="nav-link">
                                     <i class="icon icon-target"></i> Hospitals
                                 </a>
                             </li>
                             @endif
 
-                            @if( $currentUser->healthFacility->level == 'REFFERAL' || $currentUser->healthFacility->level == 'HOSPITAL' || $currentUser->healthFacility->level == 'HCIV')
+                            @if( $currentUser->healthFacility->level == 'REFFERAL' || $currentUser->healthFacility->level == 'HOSPITAL' || $currentUser->healthFacility->level == 'HCIV' ||$currentUser->healthFacility->level == 'HCII')
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('healthFacilities.under', 'HCII') }}" class="nav-link">
                                     <i class="icon icon-target"></i> Health Centre II
                                 </a>
                             </li>
@@ -125,17 +125,18 @@
 
                             @if( $currentUser->healthFacility->level == 'REFFERAL' || $currentUser->healthFacility->level == 'HOSPITAL' || $currentUser->healthFacility->level == 'HCIV' || $currentUser->healthFacility->level == 'HCIII' )
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('healthFacilities.under', 'HCIII') }}" class="nav-link">
                                     <i class="icon icon-target"></i> Health Centre III
                                 </a>
                             </li>
                             @endif
-
+                            @if( $currentUser->healthFacility->level == 'REFFERAL' || $currentUser->healthFacility->level == 'HOSPITAL' || $currentUser->healthFacility->level == 'HCIV')
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('healthFacilities.under', 'HCIV') }}" class="nav-link">
                                     <i class="icon icon-target"></i> Health Centre IV
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </li>
 
