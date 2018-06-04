@@ -17,7 +17,8 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+      $departments = Department::where('health_facility_id', Auth::user()->health_facility_id)->get();
+      return view('departments.index', compact('departments'));
     }
 
     /**
@@ -98,6 +99,13 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+      try {
+        $department = Department::findOrFail($id);
+        $department->delete();
+
+        return redirect()->route('departments.index')->with(['message' => 'Department deleted Successfully']);
+      } catch (\Exception $e) {
+        return redirect()->route('departments.index')->with(['error' => 'Unable to find Department with this ID']);
+      }
     }
 }
