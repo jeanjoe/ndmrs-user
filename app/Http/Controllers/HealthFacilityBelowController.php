@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Facades\Log;
-use App\StockBook;
-use Auth;
-use App\User;
-use Validator;
+use App\HealthFacility;
 
-class StockBookController extends Controller
+class HealthFacilityBelowController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +14,7 @@ class StockBookController extends Controller
      */
     public function index()
     {
-        $stockBooks = StockBook::where('health_facility_id', Auth::user()->health_facility_id)->get();
-        return view('stock-books.index', compact('stockBooks'));
+        return view('health_facilities/health_facilities_below.index');
     }
 
     /**
@@ -29,7 +24,7 @@ class StockBookController extends Controller
      */
     public function create()
     {
-        return view('stock-books.create');
+        //
     }
 
     /**
@@ -40,30 +35,7 @@ class StockBookController extends Controller
      */
     public function store(Request $request)
     {
-        Validator::make($request->all(), [
-          'health_facility' => 'required',
-          'name' => 'required|alpha_num',
-          'start_date' => 'required|date',
-          'end_date' => 'required|date'
-          ])->validate();
-
-          // // Log::info('Error');
-          // dd(Auth::user()->health_facility_id);
-
-          try {
-
-            $stockBook = new StockBook();
-            $stockBook->health_facility_id = Auth::user()->health_facility_id;
-            $stockBook->health_worker_id = Auth::user()->id;
-            $stockBook->name = $request['name'];
-            $stockBook->start_date = $request['start_date'];
-            $stockBook->end_date = $request['end_date'];
-            $stockBook->save();
-
-            return redirect()->back()->with(['success' => 'Data saved successfully']);
-          } catch (\Exception $e) {
-            return redirect()->back()->with(['error' => 'Unable to save Data ' .$e->getMessage()])->withInput();
-          }
+        //
     }
 
     /**
@@ -74,7 +46,14 @@ class StockBookController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+          $facility = HealthFacility::findOrFail($id);
+          return view('health_facilities/health_facilities_below.show', compact('facility'));
+
+        } catch (\Exception $e) {
+
+        }
+
     }
 
     /**

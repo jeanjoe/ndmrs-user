@@ -13,7 +13,7 @@ Stock Book- {{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper(
             <h5> <b>{{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper($currentUser->healthFacility->level) }} - Add Stock Stock Book</b> </h5>
 
             <div class="card-actions">
-                <a href="{{ route('stock-books.index') }}" class="btn">
+                <a href="{{ route('stock_books.index') }}" class="btn">
                     <i class="fa fa-eye"></i>
                 </a>
 
@@ -24,7 +24,8 @@ Stock Book- {{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper(
         </div>
 
         <div class="card-body">
-            {{ Form::open(['route' => 'stock-books.store']) }}
+          @include ('components.notifications')
+            {{ Form::open(['route' => 'stock_books.store']) }}
               <div class="form-group">
                 {{ Form::label('health_facility') }}
                 {{ Form::text('health_facility', $currentUser->healthFacility['name'], ['class' => 'form-control', 'readonly']) }}

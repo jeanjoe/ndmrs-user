@@ -17,8 +17,8 @@ class CreateStockBooksTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('health_facility_id');
             $table->foreign('health_facility_id')->references('id')->on('health_facilities');
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedInteger('health_worker_id');
+            $table->foreign('health_worker_id')->references('id')->on('health_workers');
             $table->string('name', 191);
             $table->date('start_date');
             $table->date('end_date');

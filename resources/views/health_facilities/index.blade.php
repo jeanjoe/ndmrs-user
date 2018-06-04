@@ -34,7 +34,7 @@
                             <td>{{ $healthFacilityUnder->phone }}</td>
                             <td>{{ $healthFacilityUnder->healthSubDistrict['name'] }}
                             <td>
-                              <a href="#" class="btn btn-success btn-sm"> View </a>
+                              <a href="{{route('health_facilities_below.show',$healthFacilityUnder->id)}}" class="btn btn-success btn-sm"> View </a>
                             </td>
                         </tr>
                       @endforeach

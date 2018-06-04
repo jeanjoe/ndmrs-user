@@ -13,7 +13,7 @@ Stock Book- {{ $currentUser->healthFacility->name }}
             {{ $currentUser->healthFacility->name }} - View Stock Books
 
             <div class="card-actions">
-                <a href="{{ route('stock-books.create') }}" class="btn">
+                <a href="{{ route('stock_books.create') }}" class="btn">
                     <i class="fa fa-plus-circle"></i>
                 </a>
 

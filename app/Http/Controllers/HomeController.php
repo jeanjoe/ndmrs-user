@@ -8,7 +8,7 @@ use App\Drug;
 use App\Order;
 use App\HealthWorker;
 use Auth;
-use App\healthFacility;
+use App\HealthFacility;
 
 class HomeController extends Controller
 {
@@ -67,7 +67,7 @@ class HomeController extends Controller
     }
     public function healthFacilitiesUnder($level)
     {
-      $healthFacilitiesUnder = healthFacility::with('healthSubDistrict')->where('level',$level)->get();
+      $healthFacilitiesUnder = HealthFacility::with('healthSubDistrict')->where('level',$level)->get();
       return view('health_facilities.index', compact('healthFacilitiesUnder'));
     }
 

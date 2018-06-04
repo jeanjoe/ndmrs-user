@@ -191,7 +191,7 @@
                         <ul class="nav-dropdown-items">
 
                             <li class="nav-item">
-                                <a href="{{ route('stock-books.index') }}" class="nav-link">
+                                <a href="{{ route('stock_books.index') }}" class="nav-link">
                                     <i class="icon icon-book-open"></i> Stock Book
                                 </a>
                             </li>
