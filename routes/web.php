@@ -16,3 +16,4 @@ Route::post('/users', 'AjaxController@ajaxUsersSave');
 Route::get('health_workers', 'HomeController@healthWorkers')->name('healthWorkers');
 Route::get('health_facilities_under/{level}', 'HomeController@healthFacilitiesUnder')->name('healthFacilities.under');
 Route::resource('health_facilities_below','HealthFacilityBelowController');
+Route::resource('departments','DepartmentController');
