@@ -147,28 +147,6 @@
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-people"></i> Patients <i class="fa fa-caret-left"></i>
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="{{ route('patients.create') }}" class="nav-link">
-                                    <i class="icon icon-plus"></i> Register Patient
-                                </a>
-                            </li>
-                        </ul>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="{{ route('patients.index') }}" class="nav-link">
-                                    <i class="icon icon-graph"></i> Patient Reports
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
                             <i class="icon icon-cloud-upload"></i> Stock Management <i class="fa fa-caret-left"></i>
                         </a>
 
@@ -181,8 +159,8 @@
                         </ul>
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="icon icon-graph"></i> Stock Card
+                                <a href="{{ route('stocks.index') }}" class="nav-link">
+                                    <i class="icon icon-graph"></i> Available Stock
                                 </a>
                             </li>
                         </ul>
@@ -190,20 +168,20 @@
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-energy"></i> Stock Cards <i class="fa fa-caret-left"></i>
+                            <i class="icon icon-energy"></i> Stock Books <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
 
                             <li class="nav-item">
-                                <a href="{{ route('stock_books.index') }}" class="nav-link">
+                                <a href="{{ route('stock-books.index') }}" class="nav-link">
                                     <i class="icon icon-book-open"></i> Stock Book
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="icon icon-graph"></i> Stock Reports
+                                <a href="{{ route('stock-books.create') }}" class="nav-link">
+                                    <i class="icon icon-graph"></i> Create Stock Book
                                 </a>
                             </li>
 
@@ -230,8 +208,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="icon icon-cloud-download"></i> Prescription
+                        <a href="{{ route('orders.index') }}" class="nav-link">
+                            <i class="icon icon-cloud-download"></i> Orders
                         </a>
                     </li>
 

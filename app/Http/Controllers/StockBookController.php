@@ -60,7 +60,7 @@ class StockBookController extends Controller
             $stockBook->end_date = $request['end_date'];
             $stockBook->save();
 
-            return redirect()->back()->with(['success' => 'Data saved successfully']);
+            return redirect()->back()->with(['success' => 'Stock Book saved successfully']);
           } catch (\Exception $e) {
             return redirect()->back()->with(['error' => 'Unable to save Data ' .$e->getMessage()])->withInput();
           }
@@ -74,7 +74,12 @@ class StockBookController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+          $stockBook = StockBook::with('user', 'health_facility')->findorfail($id);
+          return view('stock-books.edit', compact('stockBook'));
+        } catch (\Exception $e) {
+          return redirect()->route('stock_books.index')->with(['error' => 'Unable to finc this stock boook']);
+        }
     }
 
     /**
@@ -85,7 +90,13 @@ class StockBookController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+          $stockBook = StockBook::findorfail($id);
+          return view('stock-books.edit', compact('stockBook'));
+        } catch (\Exception $e) {
+          return redirect()->route('stock_books.index')->with(['error' => 'Unable to finc this stock boook']);
+        }
+
     }
 
     /**
@@ -97,7 +108,18 @@ class StockBookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+          $stockBook = StockBook::findorfail($id);
+          $stockBook->name = $request['name'];
+          $stockBook->start_date = $request['start_date'];
+          $stockBook->end_date = $request['end_date'];
+          $stockBook->save();
+
+          return redirect()->back()->with(['success' => 'Stock Book updated successfully']);
+        } catch (\Exception $e) {
+            return redirect()->back()->width(['error' => 'Unable to Find this Stock book']);
+        }
+
     }
 
     /**
@@ -108,6 +130,14 @@ class StockBookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+          $findStockBook = StockBook::findorfail($id);
+          $findStockBook->delete();
+
+          return redirect()->back()->with(['success' => 'Data Deleted successfully']);
+        } catch (\Exception $e) {
+          return redirect()->back()->width(['error' => 'Unable to delete this data']);
+        }
+
     }
 }

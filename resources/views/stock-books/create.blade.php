@@ -10,10 +10,10 @@ Stock Book- {{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper(
     <div class="card">
         <div class="card-header bg-light">
 
-            <h5> <b>{{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper($currentUser->healthFacility->level) }} - Add Stock Stock Book</b> </h5>
+            <h3> <b>{{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper($currentUser->healthFacility->level) }} - Add Stock Book</b> </h3>
 
             <div class="card-actions">
-                <a href="{{ route('stock_books.index') }}" class="btn">
+                <a href="{{ route('stock-books.index') }}" class="btn">
                     <i class="fa fa-eye"></i>
                 </a>
 
@@ -25,16 +25,16 @@ Stock Book- {{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper(
 
         <div class="card-body">
           @include ('components.notifications')
-            {{ Form::open(['route' => 'stock_books.store']) }}
+            {{ Form::open(['route' => 'stock-books.store']) }}
               <div class="form-group">
-                {{ Form::label('health_facility') }}
+                {{ Form::label('health_facility_name') }}
                 {{ Form::text('health_facility', $currentUser->healthFacility['name'], ['class' => 'form-control', 'readonly']) }}
                 @if( $errors->has('health_facility') )
                   <strong class="text-danger">{{ $errors->first('health_facility') }}</strong>
                 @endif
               </div>
               <div class="form-group">
-                {{ Form::label('name') }}
+                {{ Form::label('stock_book_name') }}
                 {{ Form::text('name', '', ['class' => 'form-control']) }}
                 @if( $errors->has('name') )
                   <strong class="text-danger">{{ $errors->first('name') }}</strong>
