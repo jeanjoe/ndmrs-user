@@ -8,7 +8,7 @@ Route::resource('orders', 'OrderController');
 Route::resource('patients', 'PatientController');
 Route::get('/hospitals', 'HomeController@hospitals')->name('hospitals');
 Route::resource('stock-cards', 'StockCardController');
-Route::resource('stock_books', 'StockBookController');
+Route::resource('stock-books', 'StockBookController');
 Route::resource('stocks', 'StockController')->except(['create']);
 Route::resource('health-facilities', 'HealthFacilityController')->except(['create', 'store', 'destroy', 'update', 'edit']);
 Route::get('/users', 'AjaxController@ajaxUsers');
