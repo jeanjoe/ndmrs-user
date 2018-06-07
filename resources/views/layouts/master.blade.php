@@ -139,6 +139,11 @@
                             @endif
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('departments.create') }}" class="nav-link">
+                            <i class="icon icon-cloud-download"></i> Departments
+                        </a>
+                    </li>
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
