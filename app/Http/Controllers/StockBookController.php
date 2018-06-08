@@ -7,6 +7,8 @@ use Illuminate\Http\Facades\Log;
 use App\StockBook;
 use Auth;
 use App\User;
+use App\Department;
+use App\Drug;
 use Validator;
 
 class StockBookController extends Controller
@@ -75,10 +77,12 @@ class StockBookController extends Controller
     public function show($id)
     {
         try {
-          $stockBook = StockBook::with('user', 'health_facility')->findorfail($id);
-          return view('stock-books.edit', compact('stockBook'));
+          $stockBook = StockBook::with('healthWorker', 'healthFacility', 'receivedDrugs')->findorfail($id);
+          $drugs = Drug::pluck('name', 'id');
+          $departments = Department::where('health_facility_id', Auth::user()->health_facility_id)->pluck('name', 'id');
+          return view('stock-books.show', compact('stockBook', 'drugs', 'departments'));
         } catch (\Exception $e) {
-          return redirect()->route('stock_books.index')->with(['error' => 'Unable to finc this stock boook']);
+          return redirect()->route('stock-books.index')->with(['error' => 'Unable to finc this stock boook']);
         }
     }
 

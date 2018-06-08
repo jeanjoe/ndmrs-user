@@ -7,6 +7,7 @@ use App\User;
 use Validator;
 use App\Product;
 use App\Stock;
+use App\Drug;
 
 class AjaxController extends Controller
 {
@@ -36,10 +37,15 @@ class AjaxController extends Controller
       return 'success';
     }
 
-    public function showDrug()
+    public function showDrug($id)
     {
-      # code...
-      return response()->json([ 'success' => 1, 'data' => [1,2,3,4,5,6,7]]);
+      try {
+        $drug  = Drug::findOrFail($id);
+        return response()->json([ 'success' => 1, 'drug' => $drug]);
+      } catch (\Exception $e) {
+        return response()->json([ 'success' => 0, 'message' => 'Unable to find drug' ]);        
+      }
+
     }
 
     //chandiga work starts

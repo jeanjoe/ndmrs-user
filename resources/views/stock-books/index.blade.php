@@ -24,7 +24,7 @@ Stock Book- {{ $currentUser->healthFacility->name }}
         </div>
 
         <div class="card-body">
-
+          @include('components.notifications')
           <table class="table table-striped table-sm" id="dataTable">
             <thead>
               <th>#</th>

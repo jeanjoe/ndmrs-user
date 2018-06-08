@@ -61,7 +61,10 @@ class OrderController extends Controller
       public function store(Request $request)
       {
           $validation = Validator::make($request->all(), [
-            'quantity' => 'required|min:1|integer'
+            'quantity' => 'required|min:1|integer',
+            'total_cost' => 'required',
+            'cycle' => 'required',
+            'quantity' => 'required',
           ]);
 
           if ($validation->fails()) {
@@ -71,12 +74,13 @@ class OrderController extends Controller
 
           try {
             $order = new Order();
-            $order->drug_id = $request->drug_id;
+            $order->drug_id = $request->drug;
+            $order->cycle_id = $request->cycle;
             $order->health_facility_id = Auth::user()->health_facility_id;
             $order->health_worker_id = Auth::user()->id;
             $order->quantity = $request->quantity;
-            $order->total_cost = $request->totalCost;
-            $order->financial_year_id = 1;
+            $order->total_cost = $request->total_cost;
+            $order->ven = $request->ven;
             $order->status = false;
             $order->save();
             return redirect()->back()->with('success', 'Order Added successfully');

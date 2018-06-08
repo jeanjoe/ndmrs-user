@@ -16,4 +16,8 @@ Route::post('/users', 'AjaxController@ajaxUsersSave');
 Route::get('health_workers', 'HomeController@healthWorkers')->name('healthWorkers');
 Route::get('health_facilities_under/{level}', 'HomeController@healthFacilitiesUnder')->name('healthFacilities.under');
 Route::resource('health_facilities_below','HealthFacilityBelowController');
-Route::resource('departments','DepartmentController');
+
+Route::get('cycles', 'HomeController@cycles')->name('cycles');
+Route::get('cycles/{id}/order', 'HomeController@cycleOrder')->name('cycles.order.show');
+Route::get('cycles/{id}/order/create', 'HomeController@cycleOrderCreate')->name('cycles.order.create');
+Route::post('cycles/{id}/order/create', 'HomeController@saveCycleOrderCreate')->name('cycles.order.save');

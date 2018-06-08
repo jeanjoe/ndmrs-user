@@ -139,11 +139,6 @@
                             @endif
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('departments.create') }}" class="nav-link">
-                            <i class="icon icon-cloud-download"></i> Departments
-                        </a>
-                    </li>
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
@@ -207,10 +202,23 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a href="{{ route('orders.index') }}" class="nav-link">
-                            <i class="icon icon-cloud-download"></i> Orders
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-graph"></i> Orders <i class="fa fa-caret-left"></i>
                         </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="{{ route('cycles') }}" class="nav-link">
+                                    <i class="icon icon-graph"></i> Financial Year Cycles
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('orders.index') }}" class="nav-link">
+                                    <i class="icon icon-cloud-download"></i> Orders
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="nav-item">

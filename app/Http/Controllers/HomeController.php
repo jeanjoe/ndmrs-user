@@ -7,6 +7,8 @@ use App\User;
 use App\Drug;
 use App\Order;
 use App\HealthWorker;
+use App\FinancialYear;
+use App\Cycle;
 use Auth;
 use App\HealthFacility;
 
@@ -71,5 +73,26 @@ class HomeController extends Controller
       return view('health_facilities.index', compact('healthFacilitiesUnder'));
     }
 
+    public function cycles()
+    {
+        $financialYears = FinancialYear::with('cycles')->get();
+        return view('cycles.index', compact('financialYears'));
+    }
 
+    public function cycleOrder($id)
+    {
+        try {
+          $cycle = Cycle::with(['orders' => function ($query){
+            $query->where('health_facility_id', Auth::user()->health_facility_id)->get();
+          }],'financialYear')->findOrFail($id);
+          $orderedDrugs = Order::where(['cycle_id' => $id, 'health_worker_id' => Auth::user()->health_facility_id])->pluck('drug_id');
+
+          $drugs = Drug::whereNotIn('id', $orderedDrugs)->pluck('name', 'id');
+          // $drugs = Drug::where('level_of_care', 'ALL')->pluck('name', 'id');
+          return view('cycles.show', compact('cycle', 'drugs'));
+        } catch (\Exception $e) {
+          return redirect()->route('cycles')->with(['error' => 'Cannot find this cycle']);
+        }
+
+    }
 }
