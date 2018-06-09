@@ -5,7 +5,7 @@ Route::get('/', 'HomeController@dashboard')->name('dashboard');
 Route::get('/settings', 'HomeController@settings')->name('settings');
 Route::get('/reports', 'HomeController@reports')->name('reports');
 Route::resource('orders', 'OrderController');
-Route::resource('patients', 'PatientController');
+Route::resource('departments', 'DepartmentController');
 Route::get('/hospitals', 'HomeController@hospitals')->name('hospitals');
 Route::resource('stock-cards', 'StockCardController');
 Route::resource('stock-books', 'StockBookController');

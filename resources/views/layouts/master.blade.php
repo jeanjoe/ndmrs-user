@@ -146,43 +146,42 @@
                         </a>
 
                         <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="{{ route('stocks.index') }}" class="nav-link">
-                                    <i class="icon icon-graph"></i> Add Stock
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="{{ route('stocks.index') }}" class="nav-link">
-                                    <i class="icon icon-graph"></i> Available Stock
-                                </a>
-                            </li>
+                          <li class="nav-item">
+                              <a href="{{ route('stock-books.index') }}" class="nav-link">
+                                  <i class="icon icon-minus"></i> Stock Books
+                              </a>
+                          </li>
+
+                          <li class="nav-item">
+                              <a href="{{ route('stock-books.create') }}" class="nav-link">
+                                  <i class="icon icon-minus"></i> Create Stock Book
+                              </a>
+                          </li>
+
+                          <li class="nav-item">
+                              <a href="{{ route('stock-cards.index') }}" class="nav-link">
+                                  <i class="icon icon-minus"></i> All Stock Cards
+                              </a>
+                          </li>
                         </ul>
                     </li>
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-energy"></i> Stock Books <i class="fa fa-caret-left"></i>
+                            <i class="icon icon-home"></i> Departments<i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
 
                             <li class="nav-item">
-                                <a href="{{ route('stock-books.index') }}" class="nav-link">
-                                    <i class="icon icon-book-open"></i> Stock Book
+                                <a href="{{ route('departments.index') }}" class="nav-link">
+                                    <i class="icon icon-minus"></i> All Departments
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ route('stock-books.create') }}" class="nav-link">
-                                    <i class="icon icon-graph"></i> Create Stock Book
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('stock-cards.index') }}" class="nav-link">
-                                    <i class="icon icon-eye"></i> All Stock Cards
+                                <a href="{{ route('departments.create') }}" class="nav-link">
+                                    <i class="icon icon-plus"></i> Create Department
                                 </a>
                             </li>
                         </ul>
@@ -204,7 +203,7 @@
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-graph"></i> Orders <i class="fa fa-caret-left"></i>
+                            <i class="icon icon-graph"></i> Order Management <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">

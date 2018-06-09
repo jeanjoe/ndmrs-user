@@ -23,14 +23,14 @@ class OrderController extends Controller
        */
       public function index()
       {
-        $orderedDrugs = Order::where('health_facility_id', Auth::user()->health_facility_id)->pluck('drug_id');
+        $orderedDrugs = Order::with('cycle' , 'user', 'drug')->where('health_facility_id', Auth::user()->health_facility_id)->pluck('drug_id');
         $grandTotal = Order::where('health_facility_id', Auth::user()->health_facility_id)->sum('total_cost');
-        $orders = Order::with('drug')->where('health_facility_id', Auth::user()->health_facility_id)->get();
+        $orders = Order::has('cycle')->with('drug')->where('health_facility_id', Auth::user()->health_facility_id)->orderBy('created_at', 'desc')->get();
         $drugs = DB::table('drugs')->whereNotIn('id', $orderedDrugs)->orderBy('name','asc')->get();
         $finacial_years = FinancialYear::orderBy('id', 'asc')->get();
         //$strengths = Drug::pluck('strength','id');
         //$cost = Drug::pluck('cost_per_unit', 'id');
-        return view('orders.create', compact('drugs', 'finacial_years', 'orders', 'grandTotal'));
+        return view('orders.index', compact('drugs', 'finacial_years', 'orders', 'grandTotal'));
       }
 
       /**

@@ -29,6 +29,7 @@ Stock Book- {{ $currentUser->healthFacility->name }}
             <thead>
               <th>No.</th>
               <th>Name</th>
+              <th>Drugs Received</th>
               <th>Date Created</th>
               <th>Actions</th>
             </thead>
@@ -37,6 +38,7 @@ Stock Book- {{ $currentUser->healthFacility->name }}
                 <tr>
                   <td>{{ ++$key }}</td>
                   <td>{{ $department['name'] }}</td>
+                  <td>{{ $department->drugs()->count() }}</td>
                   <td>{{ $department['created_at'] }}</td>
                   <td class="text-wrap">
                     <a href="" class="btn btn-primary btn-sm">

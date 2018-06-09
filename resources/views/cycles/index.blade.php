@@ -7,6 +7,7 @@ Stock Book- {{ $currentUser->healthFacility->name }}
 @endsection
 
 @section('content')
+  @include('components.notifications')
     @forelse( $financialYears as $key => $financialYear)
       <div class="card">
         <div class="card-body">
@@ -43,7 +44,8 @@ Stock Book- {{ $currentUser->healthFacility->name }}
     @empty
       <div class="card">
         <div class="card-body">
-          <h5 class="text-danger">No Cycles Exists</h5>
+          <h5 class="text-danger">No Financial Years Exists</h5>
+          <a href="{{ URL::current() }}" class="btn btn-warning"><i class="fa fa-refresh"></i> Refresh Page</a>
         </div>
       </div>
     @endforelse
