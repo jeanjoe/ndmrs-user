@@ -18,12 +18,15 @@
         <div class="col-md-8">
           <div class="card">
             <div class="card-header bg-light">
-              Cycle Orders
+              Cycle Order Lists
              <div class="card-actions">
-               <a href="#" class="btn">
-                   <i class="fa fa-plus-circle"></i>
-                   Make Order
+               <a href="#" class="btn btn-sm btn-primary">
+                   <i class="fa fa-check"></i>
+                   COMMIT ORDER
                </a>
+             </div>
+             <div class="clearfix">
+
              </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -33,17 +36,19 @@
                         <th>#</th>
                         <th>Drug</th>
                         <th>Quantity</th>
-                        <th>Cost</th>
+                        <th>Cost (UGX)</th>
+                        <th>VEN</th>
                         <th>Status</th>
                       </tr>
                       </thead>
                       <tbody>
-                      @forelse( $cycle->orders as $key => $order)
+                      @forelse( $cycle->orderLists as $key => $order)
                         <tr>
                           <td>{{ ++$key }}</td>
                           <td class="text-nowrap">{{ $order->drug->name }}</td>
-                          <td>{{ $order['quantity'] }}</td>
-                          <td>{{ $order['total_cost'] }}</td>
+                          <td>{{ number_format($order['quantity']) }}</td>
+                          <td>{{ number_format($order['total_cost']) }}</td>
+                          <td>{{ $order['ven'] }}</td>
                           <td>
                             <button type="button" class="btn btn-sm btn-{{ $order['status'] == 1 ? 'success' : 'warning'}}" name="button">{{ $order['status'] == 1 ? 'Approved' : 'Pending..'}}</button>
                           </td>
@@ -57,13 +62,16 @@
                   </table>
                 </div>
               </div>
+              <div class="card-body bg-light">
+                <h4><strong>Total Amount Used:</strong> {{ number_format( $cycle->orderLists()->sum('total_cost')) }} UGX</h4>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              {{ Form::open(['route' => 'orders.store']) }}
+              {{ Form::open(['route' => 'order-lists.store']) }}
               <div class="form-group">
                 {{ Form::select('drug', $drugs, null, ['class' => 'form-control', 'id' => 'drug', 'placeholder' => 'Select Drug', 'onChange' => 'getDrug(this);']) }}
               </div>

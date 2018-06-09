@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use App\OrderList;
+use Validator;
 
 class OrderListController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+    }
     public function index()
     {
         //
@@ -34,7 +36,33 @@ class OrderListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $validation = Validator::make($request->all(), [
+        'quantity' => 'required|min:1|integer',
+        'total_cost' => 'required',
+        'cycle' => 'required',
+        'quantity' => 'required',
+      ]);
+
+      if ($validation->fails()) {
+        # code...
+        return redirect()->back()->withInput()->withErrors($validation->messages());
+      }
+
+      try {
+        $order = new OrderList();
+        $order->drug_id = $request->drug;
+        $order->cycle_id = $request->cycle;
+        $order->health_facility_id = Auth::user()->health_facility_id;
+        $order->health_worker_id = Auth::user()->id;
+        $order->quantity = $request->quantity;
+        $order->total_cost = $request->total_cost;
+        $order->ven = $request->ven;
+        $order->status = false;
+        $order->save();
+        return redirect()->back()->with('success', 'Order Added successfully');
+      } catch (\Exception $e) {
+        return redirect()->back()->withInput()->with('error', 'Whooops!!.... Error while saving order ' .$e->getMessage());
+      }
     }
 
     /**

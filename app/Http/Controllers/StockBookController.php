@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Facades\Log;
 use App\StockBook;
+use App\FinancialYear;
 use Auth;
 use App\User;
 use App\Department;
@@ -31,7 +32,8 @@ class StockBookController extends Controller
      */
     public function create()
     {
-        return view('stock-books.create');
+        $financialYears = FinancialYear::with('cycles')->get();
+        return view('stock-books.create', compact('financialYears'));
     }
 
     /**
@@ -44,6 +46,7 @@ class StockBookController extends Controller
     {
         Validator::make($request->all(), [
           'health_facility' => 'required',
+          'cycle' => 'required|integer',
           'name' => 'required|alpha_num',
           'start_date' => 'required|date',
           'end_date' => 'required|date'
@@ -58,6 +61,7 @@ class StockBookController extends Controller
             $stockBook->health_facility_id = Auth::user()->health_facility_id;
             $stockBook->health_worker_id = Auth::user()->id;
             $stockBook->name = $request['name'];
+            $stockBook->cycle = $request['cycle'];
             $stockBook->start_date = $request['start_date'];
             $stockBook->end_date = $request['end_date'];
             $stockBook->save();
@@ -82,7 +86,7 @@ class StockBookController extends Controller
           $departments = Department::where('health_facility_id', Auth::user()->health_facility_id)->pluck('name', 'id');
           return view('stock-books.show', compact('stockBook', 'drugs', 'departments'));
         } catch (\Exception $e) {
-          return redirect()->route('stock-books.index')->with(['error' => 'Unable to finc this stock boook']);
+          return redirect()->route('stock-books.index')->with(['error' => 'Unable to find this stock book']);
         }
     }
 
@@ -96,9 +100,10 @@ class StockBookController extends Controller
     {
         try {
           $stockBook = StockBook::findorfail($id);
-          return view('stock-books.edit', compact('stockBook'));
+          $financialYears = FinancialYear::with('cycles')->get();
+          return view('stock-books.edit', compact('stockBook', 'financialYears'));
         } catch (\Exception $e) {
-          return redirect()->route('stock_books.index')->with(['error' => 'Unable to finc this stock boook']);
+          return redirect()->route('stock_books.index')->with(['error' => 'Unable to find this stock book']);
         }
 
     }

@@ -33,14 +33,33 @@ Stock Book- {{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper(
                   <strong class="text-danger">{{ $errors->first('health_facility') }}</strong>
                 @endif
               </div>
-              <div class="form-group">
-                {{ Form::label('stock_book_name') }}
-                {{ Form::text('name', '', ['class' => 'form-control']) }}
-                @if( $errors->has('name') )
-                  <strong class="text-danger">{{ $errors->first('name') }}</strong>
-                @endif
-              </div>
               <div class="row">
+                <div class="form-group col-md-6">
+                  {{ Form::label('stock_book_name') }}
+                  {{ Form::text('name', '', ['class' => 'form-control']) }}
+                  @if( $errors->has('name') )
+                    <strong class="text-danger">{{ $errors->first('name') }}</strong>
+                  @endif
+                </div>
+                <div class="form-group col-md-6">
+                  {{ Form::label('financial_year_cycle') }}
+                  <select class="form-control" name="cycle">
+                    @forelse( $financialYears as $key => $financialYear)
+                      <optgroup label="{{ $financialYear['financial_year'] }}">
+                        @forelse( $financialYear->cycles as $key => $cycle)
+                          <option value="{{ $cycle['id'] }}" {{ old('cycle') == $cycle['id'] ? 'selected' : '' }}>{{ $cycle['name'] . ' - Start Date: ' . $cycle['start_date'] }}</option>
+                        @empty
+                          <option value="">No Cycles Exists</option>
+                        @endforelse
+                      </optgroup>
+                    @empty
+                      <option value="">No Financial Years Exists</option>
+                    @endforelse
+                  </select>
+                  @if( $errors->has('cycle') )
+                    <strong class="text-danger">{{ $errors->first('cycle') }}</strong>
+                  @endif
+                </div>
                 <div class="form-group col-md-6">
                   {{ Form::label('start_date') }}
                   {{ Form::date('start_date', '', ['class' => 'form-control']) }}
@@ -66,5 +85,10 @@ Stock Book- {{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper(
 @endsection
 
 @section('script')
+  <script type="text/javascript">
+    $(document).ready( function() {
 
+      
+    });
+  </script>
 @endsection

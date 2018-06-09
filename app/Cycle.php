@@ -11,8 +11,8 @@ class Cycle extends Model
         return $this->belongsTo('App\FinancialYear');
     }
 
-    public function orders()
+    public function orderLists()
     {
-        return $this->hasMany('App\Order');
+        return $this->hasMany('App\OrderList');
     }
 }
