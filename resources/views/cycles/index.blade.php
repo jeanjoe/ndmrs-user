@@ -11,7 +11,7 @@ Stock Book- {{ $currentUser->healthFacility->name }}
     @forelse( $financialYears as $key => $financialYear)
       <div class="card">
         <div class="card-body">
-          <h4>Financial Year - {{ $financialYear['financial_year'] }} <span class="float-right">Budget {{ number_format($financialYear['budget']) }} UGX</span> </h4>
+          <strong>Financial Year - {{ $financialYear['financial_year'] }} <span class="float-right">Budget {{ number_format($financialYear['budget']) }} UGX</span> </strong>
         </div>
       </div>
 

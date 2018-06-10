@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-  public function drug()
+  public function healthFacility()
   {
-      return $this->belongsTo('App\Drug');
+      return $this->belongsTo('App\HealthFacility');
   }
 
-  public function cycle()
+  public function orderLists()
   {
-      return $this->belongsTo('App\Cycle');
+      return $this->belongsTo('App\OrderList', 'order_code' ,'commit_code');
   }
 
-  public function user()
+  public function healthWorker()
   {
-      return $this->belongsTo('App\HealthWorker', 'user_id');
+      return $this->belongsTo('App\HealthWorker', 'health_worker_id');
   }
 }

@@ -17,7 +17,7 @@ class DepartmentController extends Controller
     }
     public function index()
     {
-      $departments = Department::where('health_facility_id', Auth::user()->health_facility_id)->get();
+      $departments = Department::where('health_facility_id', Auth::user()->health_facility_id)->paginate(20);
       return view('departments.index', compact('departments'));
     }
 
@@ -39,9 +39,9 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-      Validator::make($request->all(), [
-        'health_facility' => 'required',
-        'name' => 'required|string'
+        Validator::make($request->all(), [
+          'health_facility' => 'required',
+          'name' => 'required|string'
         ])->validate();
 
         try {
@@ -76,7 +76,13 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+          $department = Department::findOrFail($id);
+          return view('departments.edit', compact('department'));
+        } catch (\Exception $e) {
+          return redirect()->back()->with(['error' => ' Cannot fid this Department']);
+        }
+
     }
 
     /**
@@ -88,7 +94,19 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      Validator::make($request->all(), [
+        'name' => 'required|string'
+      ])->validate();
+
+      try {
+        $department = Department::findOrFail($id);
+        $department->name = $request['name'];
+        $department->save();
+        return redirect()->back()->with(['success' => 'Department Updated successfully']);
+
+      } catch (\Exception $e) {
+        return redirect()->back()->with(['error' => 'Unable to Update ' .$e->getMessage()])->withInput();
+      }
     }
 
     /**

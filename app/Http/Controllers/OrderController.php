@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
-use App\Drug;
+use App\HealthFacility;
 use App\Order;
-use App\FinancialYear;
+use App\OrderList;
+use Carbon\Carbon;
 use Auth;
 
 class OrderController extends Controller
@@ -16,121 +17,58 @@ class OrderController extends Controller
       {
           $this->middleware('auth');
       }
-      /**
-       * Display a listing of the resource.
-       *
-       * @return \Illuminate\Http\Response
-       */
+
       public function index()
       {
-        $orderedDrugs = Order::with('cycle' , 'user', 'drug')->where('health_facility_id', Auth::user()->health_facility_id)->pluck('drug_id');
-        $grandTotal = Order::where('health_facility_id', Auth::user()->health_facility_id)->sum('total_cost');
-        $orders = Order::has('cycle')->with('drug')->where('health_facility_id', Auth::user()->health_facility_id)->orderBy('created_at', 'desc')->get();
-        $drugs = DB::table('drugs')->whereNotIn('id', $orderedDrugs)->orderBy('name','asc')->get();
-        $finacial_years = FinancialYear::orderBy('id', 'asc')->get();
-        //$strengths = Drug::pluck('strength','id');
-        //$cost = Drug::pluck('cost_per_unit', 'id');
-        return view('orders.index', compact('drugs', 'finacial_years', 'orders', 'grandTotal'));
-      }
-
-      /**
-       * Show the form for creating a new resource.
-       *
-       * @return \Illuminate\Http\Response
-       */
-      public function create()
-      {
-          $orderedDrugs = Order::where('health_facility_id', Auth::user()->health_facility_id)->pluck('drug_id');
-          $grandTotal = Order::where('health_facility_id', Auth::user()->health_facility_id)->sum('total_cost');
-          $orders = Order::with('drug')->where('health_facility_id', Auth::user()->health_facility_id)->get();
-          $drugs = DB::table('drugs')->whereNotIn('id', $orderedDrugs)->orderBy('name','asc')->get();
-          $finacial_years = FinancialYear::orderBy('id', 'asc')->get();
-          //$strengths = Drug::pluck('strength','id');
-          //$cost = Drug::pluck('cost_per_unit', 'id');
-          return view('orders.create', compact('drugs', 'finacial_years', 'orders', 'grandTotal'));
-
+        $orders = Order::with('healthFacility' , 'orderLists.cycle.finanancialYear', 'healthWorker')->orderBy('created_at', 'desc')->get();
+        return view('orders.index', compact('orders'));
       }
 
 
-      /**
-       * Store a newly created resource in storage.
-       *
-       * @param  \Illuminate\Http\Request  $request
-       * @return \Illuminate\Http\Response
-       */
       public function store(Request $request)
       {
-          $validation = Validator::make($request->all(), [
-            'quantity' => 'required|min:1|integer',
-            'total_cost' => 'required',
+          Validator::make($request->all(), [
             'cycle' => 'required',
-            'quantity' => 'required',
-          ]);
-
-          if ($validation->fails()) {
-            # code...
-            return redirect()->back()->withInput()->withErrors($validation->messages());
-          }
+          ])->validate();
 
           try {
+            DB::beginTransaction();
+            //search for health facility name
+            $healthFacility = HealthFacility::where('id', Auth::user()->id)->pluck('name');
+            $orderCode =  substr($healthFacility, 0, 3) . '' .Carbon::now()->timestamp;
+
+            //save order Commit
             $order = new Order();
-            $order->drug_id = $request->drug;
-            $order->cycle_id = $request->cycle;
             $order->health_facility_id = Auth::user()->health_facility_id;
             $order->health_worker_id = Auth::user()->id;
-            $order->quantity = $request->quantity;
-            $order->total_cost = $request->total_cost;
-            $order->ven = $request->ven;
+            $order->order_code = $orderCode;
             $order->status = false;
             $order->save();
+
+            //update order lists set to committed
+            OrderList::where(['health_facility_id' => Auth::user()->id, 'cycle_id' => $request['cycle']])->update(['committed' => true, 'commit_code' => $orderCode]);
+
+            DB::commit();
+
             return redirect()->back()->with('success', 'Order Added successfully');
           } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Whooops!!.... Error while saving order ' .$e->getMessage());
+            DB::rollback();
+            return redirect()->back()->withInput()->with('error', 'Whooops!!.... Error while commiting order ' .$e->getMessage());
           }
 
-
       }
 
-      /**
-       * Display the specified resource.
-       *
-       * @param  int  $id
-       * @return \Illuminate\Http\Response
-       */
       public function show($id)
       {
-          //
+          try {
+            $order = Order::findOrFail($id);
+            return view('orders.show', compact('order'));
+          } catch (\Exception $e) {
+            return redirect()->route('orders.index')->with(['error' => 'Cannot find order with id '. $id]);
+          }
+
       }
 
-      /**
-       * Show the form for editing the specified resource.
-       *
-       * @param  int  $id
-       * @return \Illuminate\Http\Response
-       */
-      public function edit($id)
-      {
-          //
-      }
-
-      /**
-       * Update the specified resource in storage.
-       *
-       * @param  \Illuminate\Http\Request  $request
-       * @param  int  $id
-       * @return \Illuminate\Http\Response
-       */
-      public function update(Request $request, $id)
-      {
-          //
-      }
-
-      /**
-       * Remove the specified resource from storage.
-       *
-       * @param  int  $id
-       * @return \Illuminate\Http\Response
-       */
       public function destroy($id)
       {
           //

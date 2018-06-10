@@ -86,16 +86,86 @@
         <div class="sidebar">
             <nav class="sidebar-nav">
                 <ul class="nav">
-
                     <li class="nav-item">
                         <a href="{{ route('dashboard') }}" class="nav-link active">
                             <i class="icon icon-speedometer"></i> Dashboard
                         </a>
                     </li>
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-home"></i> Departments<i class="fa fa-caret-left"></i>
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="{{ route('departments.index') }}" class="nav-link">
+                                    <i class="icon icon-minus"></i> All Departments
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('departments.create') }}" class="nav-link">
+                                    <i class="icon icon-plus"></i> Create Department
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-target"></i> Health Facilities <i class="fa fa-caret-left"></i>
+                            <i class="icon icon-cloud-upload"></i> Stock Management <i class="fa fa-caret-left"></i>
+                        </a>
+                        <ul class="nav-dropdown-items">
+                          <li class="nav-item">
+                              <a href="{{ route('stock-books.index') }}" class="nav-link">
+                                  <i class="icon icon-minus"></i> Stock Books
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="{{ route('stock-books.create') }}" class="nav-link">
+                                  <i class="icon icon-minus"></i> Create Stock Book
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="{{ route('stock-cards.index') }}" class="nav-link">
+                                  <i class="icon icon-minus"></i> All Stock Cards
+                              </a>
+                          </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-graph"></i> Statistics <i class="fa fa-caret-left"></i>
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="{{ route('reports') }}" class="nav-link">
+                                    <i class="icon icon-graph"></i> Reports
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-wrench"></i> Order Management <i class="fa fa-caret-left"></i>
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="{{ route('cycles') }}" class="nav-link">
+                                    <i class="icon icon-notebook"></i> Financial Year Cycles
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('orders.index') }}" class="nav-link">
+                                    <i class="icon icon-notebook"></i> Orders
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-support"></i> Health Facilities <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
@@ -140,86 +210,6 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-cloud-upload"></i> Stock Management <i class="fa fa-caret-left"></i>
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                          <li class="nav-item">
-                              <a href="{{ route('stock-books.index') }}" class="nav-link">
-                                  <i class="icon icon-minus"></i> Stock Books
-                              </a>
-                          </li>
-
-                          <li class="nav-item">
-                              <a href="{{ route('stock-books.create') }}" class="nav-link">
-                                  <i class="icon icon-minus"></i> Create Stock Book
-                              </a>
-                          </li>
-
-                          <li class="nav-item">
-                              <a href="{{ route('stock-cards.index') }}" class="nav-link">
-                                  <i class="icon icon-minus"></i> All Stock Cards
-                              </a>
-                          </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-home"></i> Departments<i class="fa fa-caret-left"></i>
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-
-                            <li class="nav-item">
-                                <a href="{{ route('departments.index') }}" class="nav-link">
-                                    <i class="icon icon-minus"></i> All Departments
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('departments.create') }}" class="nav-link">
-                                    <i class="icon icon-plus"></i> Create Department
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-graph"></i> Statistics <i class="fa fa-caret-left"></i>
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="{{ route('reports') }}" class="nav-link">
-                                    <i class="icon icon-graph"></i> Reports
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-graph"></i> Order Management <i class="fa fa-caret-left"></i>
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="{{ route('cycles') }}" class="nav-link">
-                                    <i class="icon icon-graph"></i> Financial Year Cycles
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('orders.index') }}" class="nav-link">
-                                    <i class="icon icon-cloud-download"></i> Orders
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <li class="nav-item">
                         <a href="{{ route('settings') }}" class="nav-link">
                             <i class="icon icon-settings"></i> General Settings
@@ -227,20 +217,16 @@
                     </li>
 
                     <li class="nav-title">More</li>
-
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
                             <i class="icon icon-umbrella"></i>More Pages <i class="fa fa-caret-left"></i>
                         </a>
-
                         <ul class="nav-dropdown-items">
-
                             <li class="nav-item">
-                                <a href="{{ route('healthWorkers') }}" class="nav-link">
+                                <a href="{{ route('health-workers.index') }}" class="nav-link">
                                     <i class="icon icon-people"></i> Health Workers
                                 </a>
                             </li>
-
                             <li class="nav-item">
                                 <a href="{{ route('settings') }}" class="nav-link">
                                     <i class="icon icon-settings"></i> Settings

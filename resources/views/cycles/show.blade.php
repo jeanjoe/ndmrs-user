@@ -10,7 +10,8 @@
 
     <div class="card">
       <div class="card-body">
-        <h4>{{ $cycle['name'] }} - {{ $cycle->financialYear['financial_year'] }} <span class="float-right">Budget {{ number_format($cycle->financialYear['budget']/4) }} UGX</span> </h4>
+        <strong>{{ $cycle['name'] }} - {{ $cycle->financialYear['financial_year'] }}
+          <span class="float-right">Budget {{ number_format($cycle->financialYear['budget']/4) }} UGX</span> </strong>
       </div>
     </div>
     @include('components.notifications')
@@ -20,55 +21,52 @@
             <div class="card-header bg-light">
               Cycle Order Lists
              <div class="card-actions">
-               <a href="#" class="btn btn-sm btn-primary">
-                   <i class="fa fa-check"></i>
-                   COMMIT ORDER
-               </a>
+               {{ Form::open(['route' => 'orders.store']) }}
+               {{ Form::hidden('cycle', $cycle['id']) }}
+                <button type="submit" class="btn btn-sm btn-primary" name="commitOrder"><i class="fa fa-check"></i>COMMIT ORDER</button>
+               {{ Form::close() }}
              </div>
-             <div class="clearfix">
-
-             </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                  <table class="table table-bordered table-sm">
-                      <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Drug</th>
-                        <th>Quantity</th>
-                        <th>Cost (UGX)</th>
-                        <th>VEN</th>
-                        <th>Status</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      @forelse( $cycle->orderLists as $key => $order)
-                        <tr>
-                          <td>{{ ++$key }}</td>
-                          <td class="text-nowrap">{{ $order->drug->name }}</td>
-                          <td>{{ number_format($order['quantity']) }}</td>
-                          <td>{{ number_format($order['total_cost']) }}</td>
-                          <td>{{ $order['ven'] }}</td>
-                          <td>
-                            <button type="button" class="btn btn-sm btn-{{ $order['status'] == 1 ? 'success' : 'warning'}}" name="button">{{ $order['status'] == 1 ? 'Approved' : 'Pending..'}}</button>
-                          </td>
-                        </tr>
-                      @empty
-                        <tr>
-                          <td colspan="5">You have not Made any orders</td>
-                        </tr>
-                      @endforelse
-                      </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="card-body bg-light">
-                <h4><strong>Total Amount Used:</strong> {{ number_format( $cycle->orderLists()->sum('total_cost')) }} UGX</h4>
-              </div>
-            </div>
+           </div>
+         </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Drug</th>
+                  <th>Quantity</th>
+                  <th>Cost (UGX)</th>
+                  <th>VEN</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                @forelse( $cycle->orderLists as $key => $order)
+                  <tr>
+                    <td>{{ ++$key }}</td>
+                    <td class="text-nowrap">{{ $order->drug->name }}</td>
+                    <td>{{ number_format($order['quantity']) }}</td>
+                    <td>{{ number_format($order['total_cost']) }}</td>
+                    <td>{{ $order['ven'] }}</td>
+                    <td>
+                      <button type="button" class="btn btn-sm btn-{{ $order['status'] == 1 ? 'success' : 'warning'}}" name="button">{{ $order['status'] == 1 ? 'Approved' : 'Pending..'}}</button>
+                    </td>
+                  </tr>
+                @empty
+                  <tr>
+                    <td colspan="6"><h4>You have not Made any orders Lists</h4> </td>
+                  </tr>
+                @endforelse
+                </tbody>
+            </table>
           </div>
         </div>
         <div class="col-md-4">
+          <div class="card bg-light">
+            <div class="card-body">
+              <strong>Amount Used:</strong> <span class="badge badge-success">{{ number_format( $cycle->orderLists()->sum('total_cost')) }} UGX</span>
+            </div>
+          </div>
           <div class="card">
             <div class="card-body">
               {{ Form::open(['route' => 'order-lists.store']) }}
