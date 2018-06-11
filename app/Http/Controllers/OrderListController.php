@@ -59,7 +59,7 @@ class OrderListController extends Controller
         $order->ven = $request->ven;
         $order->status = false;
         $order->save();
-        return redirect()->back()->with('success', 'Order Added successfully');
+        return redirect()->back()->with('success', 'Drug Added to Order List successfully');
       } catch (\Exception $e) {
         return redirect()->back()->withInput()->with('error', 'Whooops!!.... Error while saving order ' .$e->getMessage());
       }
@@ -107,6 +107,13 @@ class OrderListController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+          $orderList  = OrderList::findOrFail($id);
+          $orderList->forceDelete();
+          return redirect()->back()->with(['success' => 'Drug Removed from Order List']);
+        } catch (\Exception $e) {
+          return redirect()->back()->with(['error' => 'Unable to find this Drug']);
+        }
+
     }
 }

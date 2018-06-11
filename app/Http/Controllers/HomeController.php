@@ -26,23 +26,15 @@ class HomeController extends Controller
         $this->middleware('hospital')->only('hospitals');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function index()
-    {
-        return view('home');
-    }
-
     public function dashboard()
     {
         $healthWorkers = HealthWorker::where('health_facility_id', Auth::user()->id)->get();
         $orders = Order::where('health_facility_id', Auth::user()->id)->get();
         $drugs = Drug::all();
-        return view('home',  compact('healthWorkers', 'orders', 'drugs') );
+        $cycles = Cycle::with(['orderLists' => function ($query){
+          $query->where('health_facility_id', Auth::user()->id)->get();
+        }],'financialYear')->get();
+        return view('home',  compact('healthWorkers', 'orders', 'drugs', 'cycles') );
     }
 
     public function hospitals()
@@ -88,9 +80,11 @@ class HomeController extends Controller
           }],'financialYear')->findOrFail($id);
           $orderedDrugs = OrderList::where(['cycle_id' => $id, 'health_worker_id' => Auth::user()->health_facility_id])->pluck('drug_id');
 
+          $findIfOrderExists = Order::where(['cycle_id' => $id, 'health_facility_id' => Auth::user()->health_facility_id])->first();
+
           $drugs = Drug::whereNotIn('id', $orderedDrugs)->pluck('name', 'id');
           // $drugs = Drug::where('level_of_care', 'ALL')->pluck('name', 'id');
-          return view('cycles.show', compact('cycle', 'drugs'));
+          return view('cycles.show', compact('cycle', 'drugs', 'findIfOrderExists'));
         } catch (\Exception $e) {
           return redirect()->route('cycles')->with(['error' => 'Cannot find this cycle => ' . $e->getMessage()]);
         }

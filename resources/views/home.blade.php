@@ -104,255 +104,92 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <ul class="list-group">
+                    <li class="list-group-item">No One is here</li>
+                    <li class="list-group-item">No One is here
+                      <ul class="list-group">
+                        <li class="list-group-item">Chile 1</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <ul class="list-group">
+                    <li class="list-group-item">No One is here</li>
+                    <li class="list-group-item">No One is here
+                      <ul class="list-group">
+                        <li class="list-group-item">Chile 1</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
         </div>
 
-          <!-- <div class="row">
-              <div class="col-md-6">
-                  <div class="card card-green">
-                      <div class="card-header bg-light">
-                          Processed Orders
-                      </div>
 
-                      <div class="card-body">
-                          <div class="table-responsive">
-                              <table class="table">
-                                  <thead>
-                                  <tr>
-                                      <th>ID</th>
-                                      <th>Name</th>
-                                      <th>Sales</th>
-                                      <th>Price</th>
-                                      <th>Discount</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  <tr>
-                                      <td>1</td>
-                                      <td class="text-nowrap">Samsung Galaxy S8</td>
-                                      <td>31,589</td>
-                                      <td>$800</td>
-                                      <td>5%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>2</td>
-                                      <td class="text-nowrap">Google Pixel XL</td>
-                                      <td>99,542</td>
-                                      <td>$750</td>
-                                      <td>3%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>3</td>
-                                      <td class="text-nowrap">iPhone X</td>
-                                      <td>62,220</td>
-                                      <td>$1,200</td>
-                                      <td>0%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>4</td>
-                                      <td class="text-nowrap">OnePlus 5T</td>
-                                      <td>50,000</td>
-                                      <td>$650</td>
-                                      <td>5%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>5</td>
-                                      <td class="text-nowrap">Google Nexus 6</td>
-                                      <td>400</td>
-                                      <td>$400</td>
-                                      <td>7%</td>
-                                  </tr>
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="col-md-6">
-                  <div class="card">
-                      <div class="card-header bg-light">
-                          Striped Rows
-                      </div>
-
-                      <div class="card-body">
-                          <div class="table-responsive">
-                              <table class="table table-striped">
-                                  <thead>
-                                  <tr>
-                                      <th>ID</th>
-                                      <th>Name</th>
-                                      <th>Sales</th>
-                                      <th>Price</th>
-                                      <th>Discount</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  <tr>
-                                      <td>1</td>
-                                      <td class="text-nowrap">Samsung Galaxy S8</td>
-                                      <td>31,589</td>
-                                      <td>$800</td>
-                                      <td>5%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>2</td>
-                                      <td class="text-nowrap">Google Pixel XL</td>
-                                      <td>99,542</td>
-                                      <td>$750</td>
-                                      <td>3%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>3</td>
-                                      <td class="text-nowrap">iPhone X</td>
-                                      <td>62,220</td>
-                                      <td>$1,200</td>
-                                      <td>0%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>4</td>
-                                      <td class="text-nowrap">OnePlus 5T</td>
-                                      <td>50,000</td>
-                                      <td>$650</td>
-                                      <td>5%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>5</td>
-                                      <td class="text-nowrap">Google Nexus 6</td>
-                                      <td>400</td>
-                                      <td>$400</td>
-                                      <td>7%</td>
-                                  </tr>
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <div class="row">
-              <div class="col-md-6">
-                  <div class="card">
-                      <div class="card-header bg-light">
-                          Bordered Table
-                      </div>
-
-                      <div class="card-body">
-                          <div class="table-responsive">
-                              <table class="table table-bordered">
-                                  <thead>
-                                  <tr>
-                                      <th>ID</th>
-                                      <th>Name</th>
-                                      <th>Sales</th>
-                                      <th>Price</th>
-                                      <th>Discount</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  <tr>
-                                      <td>1</td>
-                                      <td class="text-nowrap">Samsung Galaxy S8</td>
-                                      <td>31,589</td>
-                                      <td>$800</td>
-                                      <td>5%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>2</td>
-                                      <td class="text-nowrap">Google Pixel XL</td>
-                                      <td>99,542</td>
-                                      <td>$750</td>
-                                      <td>3%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>3</td>
-                                      <td class="text-nowrap">iPhone X</td>
-                                      <td>62,220</td>
-                                      <td>$1,200</td>
-                                      <td>0%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>4</td>
-                                      <td class="text-nowrap">OnePlus 5T</td>
-                                      <td>50,000</td>
-                                      <td>$650</td>
-                                      <td>5%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>5</td>
-                                      <td class="text-nowrap">Google Nexus 6</td>
-                                      <td>400</td>
-                                      <td>$400</td>
-                                      <td>7%</td>
-                                  </tr>
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="col-md-6">
-                  <div class="card">
-                      <div class="card-header bg-light">
-                          Hoverable Table
-                      </div>
-
-                      <div class="card-body">
-                          <div class="table-responsive">
-                              <table class="table table-hover">
-                                  <thead>
-                                  <tr>
-                                      <th>ID</th>
-                                      <th>Name</th>
-                                      <th>Sales</th>
-                                      <th>Price</th>
-                                      <th>Discount</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  <tr>
-                                      <td>1</td>
-                                      <td class="text-nowrap">Samsung Galaxy S8</td>
-                                      <td>31,589</td>
-                                      <td>$800</td>
-                                      <td>5%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>2</td>
-                                      <td class="text-nowrap">Google Pixel XL</td>
-                                      <td>99,542</td>
-                                      <td>$750</td>
-                                      <td>3%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>3</td>
-                                      <td class="text-nowrap">iPhone X</td>
-                                      <td>62,220</td>
-                                      <td>$1,200</td>
-                                      <td>0%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>4</td>
-                                      <td class="text-nowrap">OnePlus 5T</td>
-                                      <td>50,000</td>
-                                      <td>$650</td>
-                                      <td>5%</td>
-                                  </tr>
-                                  <tr>
-                                      <td>5</td>
-                                      <td class="text-nowrap">Google Nexus 6</td>
-                                      <td>400</td>
-                                      <td>$400</td>
-                                      <td>7%</td>
-                                  </tr>
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div> -->
     </div>
+
+@endsection
+
+
+@section('script')
+
+  <script type="text/javascript">
+
+  $(document).ready(function () {
+
+    /**
+     * Line Chart
+     */
+    var lineChart = $('#line-chart');
+
+    if (lineChart.length > 0) {
+        new Chart(lineChart, {
+            type: 'line',
+            data: {
+                labels: [
+                  @foreach($cycles as $cycle)
+                    {!! "'".$cycle['name'] . " " . $cycle->financialYear['financial_year'] . "'," !!}
+                  @endforeach
+                ],
+                datasets: [{
+                    label: 'Order Items',
+                    data: [
+                      @foreach($cycles as $cycle)
+                        {!! "'".$cycle->orderLists->count() . "'," !!}
+                      @endforeach
+                    ],
+                    backgroundColor: 'rgba(66, 165, 245, 0.5)',
+                    borderColor: '#2196F3',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+  });
+
+  </script>
 
 @endsection

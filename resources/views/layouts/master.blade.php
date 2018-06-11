@@ -91,6 +91,25 @@
                             <i class="icon icon-speedometer"></i> Dashboard
                         </a>
                     </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-wrench"></i> Order Management <i class="fa fa-caret-left"></i>
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="{{ route('cycles') }}" class="nav-link">
+                                    <i class="icon icon-notebook"></i> Financial Year Cycles
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('orders.index') }}" class="nav-link">
+                                    <i class="icon icon-notebook"></i> Orders
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
                             <i class="icon icon-home"></i> Departments<i class="fa fa-caret-left"></i>
@@ -147,24 +166,6 @@
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-wrench"></i> Order Management <i class="fa fa-caret-left"></i>
-                        </a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="{{ route('cycles') }}" class="nav-link">
-                                    <i class="icon icon-notebook"></i> Financial Year Cycles
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('orders.index') }}" class="nav-link">
-                                    <i class="icon icon-notebook"></i> Orders
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
                             <i class="icon icon-support"></i> Health Facilities <i class="fa fa-caret-left"></i>
                         </a>
 
@@ -210,12 +211,6 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a href="{{ route('settings') }}" class="nav-link">
-                            <i class="icon icon-settings"></i> General Settings
-                        </a>
-                    </li>
-
                     <li class="nav-title">More</li>
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
@@ -229,7 +224,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('settings') }}" class="nav-link">
-                                    <i class="icon icon-settings"></i> Settings
+                                    <i class="icon icon-settings"></i> General Settings
                                 </a>
                             </li>
                         </ul>
@@ -249,7 +244,6 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
 <script src="{{ asset('vendor/chart.js/chart.min.js') }}"></script>
 <script src="{{ asset('js/carbon.js') }}"></script>
-<script src="{{ asset('js/demo.js') }}"></script>
 <script type="text/javascript">
 $(document).ready(function() {
   $('#dataTable').DataTable();

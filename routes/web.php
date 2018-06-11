@@ -1,6 +1,5 @@
 <?php
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@dashboard')->name('dashboard');
 Route::get('/settings', 'HomeController@settings')->name('settings');
 Route::get('/reports', 'HomeController@reports')->name('reports');

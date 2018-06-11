@@ -11,6 +11,11 @@ class Order extends Model
       return $this->belongsTo('App\HealthFacility');
   }
 
+  public function cycle()
+  {
+      return $this->belongsTo('App\Cycle', 'cycle_id' ,'id');
+  }
+
   public function orderLists()
   {
       return $this->belongsTo('App\OrderList', 'order_code' ,'commit_code');
