@@ -16,6 +16,11 @@ class StockBook extends Model
         return $this->belongsTo('App\HealthFacility', 'health_facility_id', 'id');
     }
 
+    public function cycle()
+    {
+        return $this->belongsTo('App\Cycle', 'cycle_id', 'id');
+    }
+
     public function receivedDrugs()
     {
         return $this->hasMany('App\ReceivedDrug');

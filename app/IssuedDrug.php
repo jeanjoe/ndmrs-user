@@ -15,4 +15,9 @@ class IssuedDrug extends Model
     {
         return $this->belongsTo('App\Department', 'department_id');
     }
+
+    public function drug()
+    {
+        return $this->belongsTo('App\Drug');
+    }
 }

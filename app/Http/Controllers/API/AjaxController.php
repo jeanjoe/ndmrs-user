@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Drug;
 use App\ReceivedDrug;
+use App\IssuedDrug;
 use Validator;
 
 class AjaxController extends Controller
@@ -63,14 +64,32 @@ class AjaxController extends Controller
   {
 
       $validator = Validator($request->all(), [
-        'recepient' => 'required|integer',
+        'department' => 'required|integer',
         'drug' => 'required|integer',
+        'user' => 'required|integer',
+        'stock' => 'required|integer',
         'quantity_out' => 'required|integer|min:0|max:1000000',
         'issued_date' => 'required|date',
       ]);
 
       if ($validator->fails()) {
-          return response()->json(['errors' => $validator->messages()]);
+          return response()->json(['errors' => $validator->messages(), 'success' => 0]);
+      }
+
+      try {
+        $issuedDrug = new IssuedDrug();
+        $issuedDrug->stock_book_id = $request->stock;
+        $issuedDrug->health_worker_id = $request['user'];
+        $issuedDrug->department_id = $request['department'];
+        $issuedDrug->drug_id =$request['drug'];
+        $issuedDrug->quantity =$request['quantity_out'];
+        $issuedDrug->transaction_date =$request['issued_date'];
+        $issuedDrug->save();
+
+        return response()->json(['success' => 1, 'message' => 'record saved successfully' ]);
+
+      } catch (\Exception $e) {
+        return response()->json(['error' => 'Unable to save record =>' .$e->getMessage(), 'success' => 0]);
       }
 
   }

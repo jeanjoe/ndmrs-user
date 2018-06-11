@@ -10,10 +10,10 @@
 
           <div class="card bg-primary">
               <div class="card-header bg-light">
-                <strong>Stock Book - {{ $stockBook['name'] }}</strong>
+                <strong class="text-info">STOCK BOOK - {{ strtoupper($stockBook['name']) }}</strong>
                <div class="card-actions">
                  <a href="{{ route('stock-books.edit', $stockBook['id']) }}" class="btn"><i class="fa fa-pencil-alt"></i> Edit</a>
-                 <a href="#" class="btn"><i class="fa fa-cog"></i> Settings</a>
+                 <a href="{{ URL::current() }}" class="btn"><i class="fa fa-refresh"></i> Refresh</a>
                </div>
              </div>
            </div>
@@ -26,12 +26,12 @@
                    <div class="card p-4">
                        <div class="card-body d-flex justify-content-between align-items-center">
                            <div>
-                               <span class="h4 d-block font-weight-normal mb-2">54</span>
+                               <span class="h4 d-block font-weight-normal mb-2"> {{ $receievedDrugs->count() }}</span>
                                <span class="font-weight-light">Received Drugs</span>
                            </div>
 
                            <div class="h2 text-muted">
-                               <i class="icon icon-people"></i>
+                               <i class="fa fa-download"></i>
                            </div>
                        </div>
                    </div>
@@ -41,12 +41,12 @@
                    <div class="card p-4">
                        <div class="card-body d-flex justify-content-between align-items-center">
                            <div>
-                               <span class="h4 d-block font-weight-normal mb-2">$32,400</span>
+                               <span class="h4 d-block font-weight-normal mb-2">{{ $issuedDrugs->count() }}</span>
                                <span class="font-weight-light">Issued Drugs</span>
                            </div>
 
                            <div class="h2 text-muted">
-                               <i class="icon icon-wallet"></i>
+                               <i class="fa fa-upload"></i>
                            </div>
                        </div>
                    </div>
@@ -100,15 +100,16 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-light">
-                        Received Drugs
+                        <strong class="text-success">Received Drugs</strong>
                     </div>
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-sm table-bordered">
                                 <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Drug</th>
                                     <th>Quantity</th>
                                     <th>Organization</th>
                                     <th>Manufacture Date</th>
@@ -117,16 +118,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                  @foreach( $stockBook->receivedDrugs as $key => $receievedDrug)
+                                  @forelse( $stockBook->receivedDrugs as $key => $receievedDrug)
                                     <tr>
                                         <td>{{ ++$key }}</td>
-                                        <td class="text-nowrap">{{ $receievedDrug['quantity'] }}</td>
+                                        <td class="text-nowrap">{{ $receievedDrug->drug['name'] }}</td>
+                                        <td>{{ $receievedDrug['quantity'] }}</td>
                                         <td>{{ $receievedDrug['organization'] }}</td>
                                         <td>{{ $receievedDrug['manufacture_date'] }}</td>
                                         <td>{{ $receievedDrug['expiry_date'] }}</td>
                                         <td>{{ $receievedDrug['batch_number'] }}</td>
                                     </tr>
-                                  @endforeach
+                                  @empty
+                                    <tr>
+                                      <td colspan="6">No Drugs Recieved</td>
+                                    </tr>
+                                  @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -137,29 +143,35 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-light">
-                        Hoverable Table
+                        <strong class="text-danger">Issued Drugs</strong>
                     </div>
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-sm table-hover">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Sales</th>
-                                    <th>Price</th>
-                                    <th>Discount</th>
+                                    <th>Drug</th>
+                                    <th>Quantity</th>
+                                    <th>Department</th>
+                                    <th>Date</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td class="text-nowrap">Samsung Galaxy S8</td>
-                                    <td>31,589</td>
-                                    <td>$800</td>
-                                    <td>5%</td>
-                                </tr>
+                                @forelse( $issuedDrugs as $key => $issuedDrug)
+                                  <tr>
+                                    <td>{{ ++$key }}</td>
+                                    <td>{{ $issuedDrug->drug->name }}</td>
+                                    <td>{{ $issuedDrug->quantity }}</td>
+                                    <td>{{ $issuedDrug->department->name }}</td>
+                                    <td>{{ $issuedDrug->created_at }}</td>
+                                  </tr>
+                                @empty
+                                  <tr>
+                                    <td colspan="6">No Drugs Issued Out yet</td>
+                                  </tr>
+                                @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -266,14 +278,21 @@
                 <strong class="text-danger issued_date-error"></strong>
               </div>
               <div class="col-md-12">
-                {{ Form::label('recipient', 'Recipient') }}
-                {{ Form::select('recipient', $drugs, null, ['class' => 'form-control'] ) }}
+                {{ Form::label('department', 'Department') }}
+                {{ Form::select('department', $departments, null, ['class' => 'form-control'] ) }}
+                <strong class="text-danger department-error"></strong>
+              </div>
+              <div class="col-md-12">
+                {{ Form::label('drug', 'Drug') }}
+                {{ Form::select('drug', $drugs, null, ['class' => 'form-control'] ) }}
                 <strong class="text-danger recepient-error"></strong>
               </div>
               <div class="col-md-12">
                 {{ Form::label('quantity_out', 'Quantity-Out') }}
                 {{ Form::number('quantity_out','', ['class' => 'form-control'] ) }}
                 <strong class="text-danger quantity_out-error"></strong>
+                {{ Form::hidden('stock', $stockBook['id'] ) }}
+                {{ Form::hidden('user', Auth::user()->id ) }}
               </div>
             </div>
           </div>
@@ -371,7 +390,8 @@
       const stockBook = $("input[name=stock_book]").val()
 
       $(".issued_date-error").empty()
-      $(".recepient-error").empty()
+      $(".department-error").empty()
+      $(".drug-error").empty()
       $(".quantity_out-error").empty()
 
       $.ajax({
@@ -379,27 +399,31 @@
           type:'POST',
           data: $('#issueDrugForm').serialize(),
           success: function(data) {
-            // console.log(data);
+            console.log(data);
 
               if(!$.isEmptyObject(data.errors)){
                 if ('issued_date' in data.errors) {
                   $(".issued_date-error").text(data.errors['issued_date'])
                 }
-                if ('recepient' in data.errors) {
-                  $(".recepient-error").text(data.errors['recepient'])
+                if ('department' in data.errors) {
+                  $(".department-error").text(data.errors['department'])
+                }
+                if ('drug' in data.errors) {
+                  $(".drug-error").text(data.errors['drug'])
                 }
                 if ('quantity_out' in data.errors) {
                   $(".quantity_out-error").text(data.errors['quantity_out'])
                 }
               }
 
-              if (!$.isEmptyObject(data.error)) {
-                $(".error-message").text(data.error.message);
+              if (data.success == 0) {
+                $(".print-error-msg").text(data.error);
               }
 
               if (data.success == 1) {
                 $("input[name=quantity_out]").val('')
-                $("input[name=recepient]").val('')
+                $("input[name=drug]").val('')
+                $("input[name=department]").val('')
                 $("input[name=issued_date]").val('')
               }
           },

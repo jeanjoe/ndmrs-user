@@ -69,7 +69,7 @@
                   </tr>
                 @empty
                   <tr>
-                    <td colspan="6"><h4>You have not Made any orders Lists</h4> </td>
+                    <td colspan="7"><h6 class="text-danger">You have not Made any orders Lists</h6> </td>
                   </tr>
                 @endforelse
                 </tbody>
