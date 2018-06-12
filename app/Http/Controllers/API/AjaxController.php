@@ -21,6 +21,16 @@ class AjaxController extends Controller
       }
   }
 
+  public function getIssuedDrug($id)
+  {
+      try {
+        $drug = IssuedDrug::select('quantity')->findOrFail($id);
+        return response()->json(['drug' => $drug, 'success' =>1 ]);
+      } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to retrieve drug list', 'success' => 0]);
+      }
+  }
+
   public function receiveDrug(Request $request, $id)
   {
     $validator = Validator($request->all(), [

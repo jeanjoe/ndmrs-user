@@ -125,6 +125,11 @@
                                     <i class="icon icon-plus"></i> Create Department
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('department.report') }}" class="nav-link">
+                                    <i class="icon icon-plus"></i> Submit Report
+                                </a>
+                            </li>
                         </ul>
                     </li>
 

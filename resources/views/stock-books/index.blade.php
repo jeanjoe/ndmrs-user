@@ -34,7 +34,8 @@ Stock Book- {{ $currentUser->healthFacility->name }}
                 <th>Name</th>
                 <th>Start Date</th>
                 <th>End Date</th>
-                <th>Stock Items</th>
+                <th>Cycle</th>
+                <th>Financial Year</th>
                 <th>Date Created</th>
                 <th>Actions</th>
               </thead>
@@ -45,7 +46,8 @@ Stock Book- {{ $currentUser->healthFacility->name }}
                     <td>{{ $stockBook['name'] }}</td>
                     <td>{{ $stockBook['start_date'] }}</td>
                     <td>{{ $stockBook['end_date'] }}</td>
-                    <td>0</td>
+                    <td>{{ $stockBook->cycle->name or 'Not Attached' }}</td>
+                    <td>{{ $stockBook->cycle->financialYear['financial_year'] or 'Not Attached' }}</td>
                     <td>{{ $stockBook['created_at'] }}</td>
                     <td>
                       <a href="{{ route('stock-books.edit', $stockBook['id']) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> </a>

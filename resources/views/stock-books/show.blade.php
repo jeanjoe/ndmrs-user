@@ -199,7 +199,7 @@
               <span class="alert alert-danger error-message"></span>
 
               <div class="form-group">
-                {{ Form::label('drug', 'Transaction Date') }}
+                {{ Form::label('drug', 'Select Drugs') }}
                 {{ Form::select('drug', $drugs, null, ['class' => 'form-control']) }}
                 <strong class="text-danger drug-error"></strong>
               </div>

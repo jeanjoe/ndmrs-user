@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('health_workers', 'AjaxController@ajaxUsers');
 Route::get('drug/{id}', 'AjaxController@showDrug');
 Route::get('drugs', 'API\AjaxController@getDrugs');
+Route::get('get/issued-drug/{id}', 'API\AjaxController@getIssuedDrug');
 
 Route::post('recieive-drug/{id}', 'API\AjaxController@receiveDrug');
 Route::post('issue-drug/{id}', 'API\AjaxController@issueDrug');
