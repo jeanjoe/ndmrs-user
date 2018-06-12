@@ -2,7 +2,7 @@
 
 @section('title')
 
-Stock Book- {{ $currentUser->healthFacility->name }}
+{{ $currentUser->healthFacility->name }} - Departments
 
 @endsection
 
@@ -39,7 +39,7 @@ Stock Book- {{ $currentUser->healthFacility->name }}
               <tr>
                 <td>{{ ++$key }}</td>
                 <td>{{ $department['name'] }}</td>
-                <td>{{ $department->drugs()->count() }}</td>
+                <td>{{ $department->issueDrugs()->count() }}</td>
                 <td>{{ $department['created_at'] }}</td>
                 <td>
                   <a href="{{ route('departments.edit', $department['id']) }}" class="btn btn-success btn-sm">

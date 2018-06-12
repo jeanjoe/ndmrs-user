@@ -23,7 +23,7 @@ Stock Book- {{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper(
             </div>
           </div>
         </div>
-        
+
         @include ('components.notifications')
 
         <div class="card">

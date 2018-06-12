@@ -86,13 +86,15 @@ class StockBookController extends Controller
         try {
           $stockBook = StockBook::with('healthWorker', 'healthFacility', 'receivedDrugs')->findorfail($id);
 
-          $approvedOrderLists = OrderList::where(['cycle_id' => $stockBook->cycle_id, 'health_facility_id' => Auth::user()->id, 'status' => true])->pluck('drug_id');
+          $approvedOrderLists = OrderList::where(['cycle_id' => $stockBook->cycle_id, 'health_facility_id' => Auth::user()->health_facility_id, 'status' => true])->pluck('drug_id');
           $drugs = Drug::whereIn('id', $approvedOrderLists)->pluck('name', 'id');
 
-          $receievedDrugs = ReceivedDrug::where('stock_book_id', $id)->get();
-          $issuedDrugs = IssuedDrug::where('stock_book_id', $id)->get();
+          $receievedDrugs = ReceivedDrug::where('stock_book_id', $id)->orderBy('created_at', 'desc')->get();
+          $receievedDrugIDs = ReceivedDrug::where([['stock_book_id', '=', $id], ['quantity_remaining', '>=', 1]])->pluck('drug_id');
+          $selectReceivedDrugs = Drug::whereIn('id', $receievedDrugIDs)->pluck('name', 'id');
+          $issuedDrugs = IssuedDrug::where('stock_book_id', $id)->orderBy('created_at', 'desc')->get();
           $departments = Department::where('health_facility_id', Auth::user()->health_facility_id)->pluck('name', 'id');
-          return view('stock-books.show', compact('stockBook', 'receievedDrugs', 'issuedDrugs', 'drugs', 'departments'));
+          return view('stock-books.show', compact('stockBook', 'receievedDrugs', 'selectReceivedDrugs', 'issuedDrugs', 'drugs', 'departments'));
         } catch (\Exception $e) {
           return redirect()->route('stock-books.index')->with(['error' => 'Unable to find this stock book => ' . $e->getMessage()]);
         }

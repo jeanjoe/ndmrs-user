@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use App\Drug;
 use App\ReceivedDrug;
 use App\IssuedDrug;
@@ -24,10 +25,10 @@ class AjaxController extends Controller
   public function getIssuedDrug($id)
   {
       try {
-        $drug = IssuedDrug::select('quantity')->findOrFail($id);
+        $drug = IssuedDrug::select('quantity_remaining')->findOrFail($id);
         return response()->json(['drug' => $drug, 'success' =>1 ]);
       } catch (\Exception $e) {
-        return response()->json(['error' => 'Failed to retrieve drug list', 'success' => 0]);
+        return response()->json(['error' => 'Failed to retrieve drug list ' . $e->getMessage(), 'success' => 0]);
       }
   }
 
@@ -58,6 +59,7 @@ class AjaxController extends Controller
       $receievedDrug->organization = $request['organization'];
       $receievedDrug->voucher_number = $request['voucher_no'];
       $receievedDrug->quantity = $request['quantity'];
+      $receievedDrug->quantity_remaining = $request['quantity'];
       $receievedDrug->receive_date = $request['receive_date'];
       $receievedDrug->manufacture_date = $request['manufacture_date'];
       $receievedDrug->expiry_date = $request['expiry_date'];
@@ -86,19 +88,34 @@ class AjaxController extends Controller
           return response()->json(['errors' => $validator->messages(), 'success' => 0]);
       }
 
+      $findReceivedDrug = ReceivedDrug::where('drug_id', $request['drug'])->first();
+
+      if ($request['quantity_out'] > $findReceivedDrug->quantity_remaining) {
+        return response()->json([ 'errors' => [
+          'quantity_out' => 'Quantity cannot be above [' .$findReceivedDrug->quantity_remaining .'] for '. $findReceivedDrug->drug->name,
+          ]]);
+      }
+
       try {
+        DB::beginTransaction();
+
         $issuedDrug = new IssuedDrug();
         $issuedDrug->stock_book_id = $request->stock;
         $issuedDrug->health_worker_id = $request['user'];
         $issuedDrug->department_id = $request['department'];
         $issuedDrug->drug_id =$request['drug'];
         $issuedDrug->quantity =$request['quantity_out'];
+        $issuedDrug->quantity_remaining =$request['quantity_out'];
         $issuedDrug->transaction_date =$request['issued_date'];
         $issuedDrug->save();
 
+        ReceivedDrug::where('drug_id', $request['drug'])->decrement('quantity_remaining', $request['quantity_out']);
+
+        DB::commit();
         return response()->json(['success' => 1, 'message' => 'record saved successfully' ]);
 
       } catch (\Exception $e) {
+        DB::rollback();
         return response()->json(['error' => 'Unable to save record =>' .$e->getMessage(), 'success' => 0]);
       }
 

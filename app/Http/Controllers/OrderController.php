@@ -40,8 +40,9 @@ class OrderController extends Controller
           try {
             DB::beginTransaction();
             //search for health facility name
-            $healthFacility = HealthFacility::where('id', Auth::user()->id)->first();
+            $healthFacility = HealthFacility::where('id', Auth::user()->health_facility_id)->first();
             $orderCode =  substr(strtoupper($healthFacility->name), 0, 3) . '' .Carbon::now()->timestamp;
+
 
             //save order Commit
             $order = new Order();
@@ -53,14 +54,14 @@ class OrderController extends Controller
             $order->save();
 
             //update order lists set to committed
-            OrderList::where(['health_facility_id' => Auth::user()->id, 'cycle_id' => $request['cycle']])->update(['committed' => true, 'commit_code' => $orderCode]);
+            OrderList::where(['health_facility_id' => Auth::user()->health_facility_id, 'cycle_id' => $request['cycle']])->update(['committed' => true, 'commit_code' => $orderCode]);
 
             DB::commit();
 
             return redirect()->back()->with('success', 'Order Committed successfully');
           } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->withInput()->with('error', 'Whooops!!.... Error while commiting order ' .$e->getMessage());
+            return redirect()->back()->withInput()->with(['error' => 'Whooops!!.... Error while commiting order ' .$e->getMessage()]);
           }
 
       }

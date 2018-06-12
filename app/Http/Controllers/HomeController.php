@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Drug;
 use App\Order;
@@ -16,6 +17,7 @@ use App\Cycle;
 use Auth;
 use App\HealthFacility;
 use Validator;
+use Carbon;
 
 class HomeController extends Controller
 {
@@ -123,30 +125,40 @@ class HomeController extends Controller
 
     public function departmentReport()
     {
-      $departments = Department::with('drugs')->where('health_facility_id', Auth::user()->id)->get();
+      $departments = Department::with(['issueDrugs' => function ($query) {
+        $query->where('quantity_remaining', '>=', 1)->get();
+      }])->where('health_facility_id', Auth::user()->health_facility_id)->get();
       return view('departments.report', compact('departments'));
     }
 
     public function departmentStoreReport(Request $request)
     {
       Validator::make($request->all(), [
-        'quantity' => 'required',
         'quantity_available' => 'required',
+        'quantity' => 'required|integer|max:' .$request->quantity_available,
         'issued_drug' => 'required',
         'comment' => 'nullable|max:200',
       ])->Validate();
 
       try {
-        // $drug
+        DB::beginTransaction();
+
+        IssuedDrug::where('id', $request['issued_drug'])->decrement('quantity_remaining', $request['quantity']);
+
         DB::table('department_drug_reports')->insert([
           'quantity' => $request->quantity,
           'quantity_remaining' => $request->quantity_available - $request->quantity,
           'issued_drug_id' => $request->issued_drug,
           'comment' => $request->comment,
+          'created_at' => Carbon::now(),
+          'updated_at' => Carbon::now()
         ]);
+
+        DB::commit();
 
         return redirect()->back()->with(['success' => 'Report Added successfully']);
       } catch (\Exception $e) {
+        DB::rollback();
         return redirect()->back()->with(['error' => 'Unable to save this report']);
       }
 

@@ -99,23 +99,23 @@
            <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-light">
-                        <strong class="text-success">Received Drugs</strong>
-                    </div>
-
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-sm table-bordered">
+                            <table class="table table-sm table-striped table-bordered">
                                 <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Drug</th>
-                                    <th>Quantity</th>
-                                    <th>Organization</th>
-                                    <th>Manufacture Date</th>
-                                    <th>Expiry Date</th>
-                                    <th>Batch No.</th>
-                                </tr>
+                                  <tr>
+                                    <th colspan="10" class="text-center text-primary">Received Drugs</th>
+                                  </tr>
+                                  <tr>
+                                      <th>#</th>
+                                      <th>Drug</th>
+                                      <th>Quantity</th>
+                                      <th>Qnty Left</th>
+                                      <th>Organization</th>
+                                      <th>Manufacture Date</th>
+                                      <th>Expiry Date</th>
+                                      <th>Batch No.</th>
+                                  </tr>
                                 </thead>
                                 <tbody>
                                   @forelse( $stockBook->receivedDrugs as $key => $receievedDrug)
@@ -123,6 +123,7 @@
                                         <td>{{ ++$key }}</td>
                                         <td class="text-nowrap">{{ $receievedDrug->drug['name'] }}</td>
                                         <td>{{ $receievedDrug['quantity'] }}</td>
+                                        <td>{{ $receievedDrug['quantity_remaining'] }}</td>
                                         <td>{{ $receievedDrug['organization'] }}</td>
                                         <td>{{ $receievedDrug['manufacture_date'] }}</td>
                                         <td>{{ $receievedDrug['expiry_date'] }}</td>
@@ -142,21 +143,21 @@
 
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-light">
-                        <strong class="text-danger">Issued Drugs</strong>
-                    </div>
-
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-sm table-hover">
+                            <table class="table table-sm table-bordered table-hover">
                                 <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Drug</th>
-                                    <th>Quantity</th>
-                                    <th>Department</th>
-                                    <th>Date</th>
-                                </tr>
+                                  <tr>
+                                    <th colspan="6" class="text-center text-danger">Issued Drugs</th>
+                                  </tr>
+                                  <tr>
+                                      <th>ID</th>
+                                      <th>Drug</th>
+                                      <th>Quantity</th>
+                                      <th>Quantity Left</th>
+                                      <th>Department</th>
+                                      <th>Date</th>
+                                  </tr>
                                 </thead>
                                 <tbody>
                                 @forelse( $issuedDrugs as $key => $issuedDrug)
@@ -164,6 +165,7 @@
                                     <td>{{ ++$key }}</td>
                                     <td>{{ $issuedDrug->drug->name }}</td>
                                     <td>{{ $issuedDrug->quantity }}</td>
+                                    <td>{{ $issuedDrug->quantity_remaining }}</td>
                                     <td>{{ $issuedDrug->department->name }}</td>
                                     <td>{{ $issuedDrug->created_at }}</td>
                                   </tr>
@@ -284,7 +286,7 @@
               </div>
               <div class="col-md-12">
                 {{ Form::label('drug', 'Drug') }}
-                {{ Form::select('drug', $drugs, null, ['class' => 'form-control'] ) }}
+                {{ Form::select('drug', $selectReceivedDrugs, null, ['class' => 'form-control'] ) }}
                 <strong class="text-danger recepient-error"></strong>
               </div>
               <div class="col-md-12">
@@ -425,6 +427,7 @@
                 $("input[name=drug]").val('')
                 $("input[name=department]").val('')
                 $("input[name=issued_date]").val('')
+                $(".print-success-msg").html(data.message)
               }
           },
           error: function (xhr, thrown, unkmown){

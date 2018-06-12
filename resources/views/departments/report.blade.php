@@ -36,12 +36,12 @@ Department Report - {{ strtoupper($currentUser->healthFacility->name) . " " .str
                 </div>
                 <div class="form-group col-md-6">
                   {{ Form::label('department') }}
-                  <select class="form-control" id="issued_drug" name="issued_drug" onchange=", 'getIssuedDrug(this);">
+                  <select class="form-control" id="issued_drug" name="issued_drug" onchange="getIssuedDrug(this);">
                     <option value="">Select Issued Drug</option>
                     @forelse( $departments as $department)
                       <optgroup label="{{ $department['name']}}">
-                        @forelse( $department->drugs as $drug)
-                          <option value="{{ $drug->drug['id'] }}" {{ old('drug') == $drug->drug['id'] ? 'selected' : '' }}> {{ $drug->drug->name }}</option>
+                        @forelse( $department->issueDrugs as $issueDrug)
+                          <option value="{{ $issueDrug['id'] }}" {{ old('drug') == $issueDrug->drug['id'] ? 'selected' : '' }}> {{ $issueDrug->drug->name }}</option>
                         @empty
                           <option value="">No Drugs have been issued</option>
                         @endforelse
@@ -56,14 +56,14 @@ Department Report - {{ strtoupper($currentUser->healthFacility->name) . " " .str
                 </div>
                 <div class="form-group col-md-6">
                   {{ Form::label('quantity_available') }}
-                  {{ Form::text('quantity_available', '', ['class' => 'form-control', 'readonly']) }}
+                  {{ Form::number('quantity_available', '', ['class' => 'form-control', 'readonly', 'min' => '1']) }}
                   @if( $errors->has('quantity_available') )
                     <strong class="text-danger">{{ $errors->first('quantity_available') }}</strong>
                   @endif
                 </div>
                 <div class="form-group col-md-6">
                   {{ Form::label('quantity_out') }}
-                  {{ Form::text('quantity', '', ['class' => 'form-control']) }}
+                  {{ Form::number('quantity', '', ['class' => 'form-control']) }}
                   @if( $errors->has('quantity') )
                     <strong class="text-danger">{{ $errors->first('quantity') }}</strong>
                   @endif
@@ -104,7 +104,7 @@ Department Report - {{ strtoupper($currentUser->healthFacility->name) . " " .str
           success:function(data) {
             console.log(data);
             if(data.success == 1) {
-              $("input[name=quantity_available]").val(data.drug.quantity)
+              $("input[name=quantity_available]").val(data.drug.quantity_remaining)
             }
           }
       });

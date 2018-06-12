@@ -11,7 +11,7 @@
                 <div class="card p-4">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="h4 d-block font-weight-normal mb-2">{{ number_format(($financialYears[0]->$level/ 100 ) * $financialYears[0]->budget) }} </span>
+                            <span class="h4 d-block font-weight-normal mb-2">{{ $financialYears ? number_format(($financialYears[0]->$level/ 100 ) * $financialYears[0]->budget) : 0 }} </span>
                             <span class="font-weight-light">BUDGET (UGX)</span>
                         </div>
 
@@ -83,22 +83,22 @@
                         <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
                             <div class="text-center">
                                 <div class="text-muted small">Referrals</div>
-                                <div>{{ number_format(($financialYears[0]->NRH/ 100 ) * $financialYears[0]->budget) }} UGX ({{ $financialYears[0]->NRH }}%)</div>
+                                <div>{{ $financialYears ? number_format(($financialYears[0]->NRH/ 100 ) * $financialYears[0]->budget) : 0 }} UGX ({{ $financialYears ? $financialYears[0]->NRH : 0 }}%)</div>
                             </div>
 
                             <div class="text-center">
                                 <div class="text-muted small">Health Centre II</div>
-                                <div>{{ number_format(($financialYears[0]->HCII/ 100 ) * $financialYears[0]->budget) }} UGX({{ $financialYears[0]->HCII }}%)</div>
+                                <div>{{ $financialYears ? number_format(($financialYears[0]->HCII/ 100 ) * $financialYears[0]->budget) : 0 }} UGX({{ $financialYears ? $financialYears[0]->HCII : 0 }}%)</div>
                             </div>
 
                             <div class="text-center">
                                 <div class="text-muted small">Health Centre III</div>
-                                <div>{{ number_format(($financialYears[0]->HCIII/ 100 ) * $financialYears[0]->budget) }} UGX ({{ $financialYears[0]->HCIII }}%)</div>
+                                <div>{{ $financialYears ? number_format(($financialYears[0]->HCIII/ 100 ) * $financialYears[0]->budget) : 0 }} UGX ({{ $financialYears ? $financialYears[0]->HCIII : 0 }}%)</div>
                             </div>
 
                             <div class="text-center">
                                 <div class="text-muted small">Health Centre IV</div>
-                                <div>{{ number_format(($financialYears[0]->HCIV/ 100 ) * $financialYears[0]->budget) }} UGX ({{ $financialYears[0]->HCIV }}%)</div>
+                                <div>{{ $financialYears ? number_format(($financialYears[0]->HCIV/ 100 ) * $financialYears[0]->budget) : 0 }} UGX ({{ $financialYears ? $financialYears[0]->HCIV :0 }}%)</div>
                             </div>
                         </div>
                     </div>

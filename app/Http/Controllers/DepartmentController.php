@@ -17,7 +17,7 @@ class DepartmentController extends Controller
     }
     public function index()
     {
-      $departments = Department::where('health_facility_id', Auth::user()->health_facility_id)->paginate(20);
+      $departments = Department::with('issueDrugs')->where('health_facility_id', Auth::user()->health_facility_id)->paginate(20);
       return view('departments.index', compact('departments'));
     }
 
