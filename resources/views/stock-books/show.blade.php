@@ -329,7 +329,7 @@
           type:'POST',
           data: $('#receiveDrugForm').serialize(),
           success: function(data) {
-            // console.log(data);
+            console.log(data);
 
               if(!$.isEmptyObject(data.errors)){
 

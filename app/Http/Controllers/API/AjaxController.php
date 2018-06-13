@@ -52,7 +52,7 @@ class AjaxController extends Controller
 
     try {
       $receievedDrug = new ReceivedDrug();
-      $receievedDrug->user_id = $request['user'];
+      $receievedDrug->health_worker_id = $request['user'];
       $receievedDrug->drug_id = $request['drug'];
       $receievedDrug->stock_book_id = $id;
       $receievedDrug->batch_number = $request['batch_number'];
@@ -67,7 +67,7 @@ class AjaxController extends Controller
 
       return response()->json(['message' => 'Drug added', 'success' => 1]);
     } catch (\Exception $e) {
-        return response()->json(['error' => 'Cannot add Drug => ', 'success' => 0]);
+        return response()->json(['error' => 'Cannot add Drug => ' . $e->getMessage(), 'success' => 0]);
     }
 
   }
