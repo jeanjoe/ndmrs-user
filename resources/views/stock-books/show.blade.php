@@ -98,89 +98,81 @@
 
            <div class="row">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-sm table-striped table-bordered">
-                                <thead>
-                                  <tr>
-                                    <th colspan="10" class="text-center text-primary">Received Drugs</th>
-                                  </tr>
-                                  <tr>
-                                      <th>#</th>
-                                      <th>Drug</th>
-                                      <th>Quantity</th>
-                                      <th>Qnty Left</th>
-                                      <th>Organization</th>
-                                      <th>Manufacture Date</th>
-                                      <th>Expiry Date</th>
-                                      <th>Batch No.</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  @forelse( $stockBook->receivedDrugs as $key => $receievedDrug)
-                                    <tr>
-                                        <td>{{ ++$key }}</td>
-                                        <td class="text-nowrap">{{ $receievedDrug->drug['name'] }}</td>
-                                        <td>{{ $receievedDrug['quantity'] }}</td>
-                                        <td>{{ $receievedDrug['quantity_remaining'] }}</td>
-                                        <td>{{ $receievedDrug['organization'] }}</td>
-                                        <td>{{ $receievedDrug['manufacture_date'] }}</td>
-                                        <td>{{ $receievedDrug['expiry_date'] }}</td>
-                                        <td>{{ $receievedDrug['batch_number'] }}</td>
-                                    </tr>
-                                  @empty
-                                    <tr>
-                                      <td colspan="6">No Drugs Recieved</td>
-                                    </tr>
-                                  @endforelse
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped table-bordered">
+                            <thead>
+                              <tr>
+                                <th colspan="10" class="text-center text-primary">Received Drugs</th>
+                              </tr>
+                              <tr>
+                                  <th>#</th>
+                                  <th>Drug</th>
+                                  <th>Quantity</th>
+                                  <th>Qnty Left</th>
+                                  <th>Organization</th>
+                                  <th>Manufacture Date</th>
+                                  <th>Expiry Date</th>
+                                  <th>Batch No.</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @forelse( $stockBook->receivedDrugs as $key => $receievedDrug)
+                                <tr>
+                                    <td>{{ ++$key }}</td>
+                                    <td class="text-nowrap">{{ $receievedDrug->drug['name'] }}</td>
+                                    <td>{{ $receievedDrug['quantity'] }}</td>
+                                    <td>{{ $receievedDrug['quantity_remaining'] }}</td>
+                                    <td>{{ $receievedDrug['organization'] }}</td>
+                                    <td>{{ $receievedDrug['manufacture_date'] }}</td>
+                                    <td>{{ $receievedDrug['expiry_date'] }}</td>
+                                    <td>{{ $receievedDrug['batch_number'] }}</td>
+                                </tr>
+                              @empty
+                                <tr>
+                                  <td colspan="8" class="text-center text-danger">No Drugs Recieved</td>
+                                </tr>
+                              @endforelse
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-sm table-bordered table-hover">
-                                <thead>
-                                  <tr>
-                                    <th colspan="6" class="text-center text-danger">Issued Drugs</th>
-                                  </tr>
-                                  <tr>
-                                      <th>ID</th>
-                                      <th>Drug</th>
-                                      <th>Quantity</th>
-                                      <th>Quantity Left</th>
-                                      <th>Department</th>
-                                      <th>Date</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                @forelse( $issuedDrugs as $key => $issuedDrug)
-                                  <tr>
-                                    <td>{{ ++$key }}</td>
-                                    <td>{{ $issuedDrug->drug->name }}</td>
-                                    <td>{{ $issuedDrug->quantity }}</td>
-                                    <td>{{ $issuedDrug->quantity_remaining }}</td>
-                                    <td>{{ $issuedDrug->department->name }}</td>
-                                    <td>{{ $issuedDrug->created_at }}</td>
-                                  </tr>
-                                @empty
-                                  <tr>
-                                    <td colspan="6">No Drugs Issued Out yet</td>
-                                  </tr>
-                                @endforelse
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="col-md-12">
+                      <div class="table-responsive">
+                        <table class="table table-sm table-bordered table-hover">
+                          <thead>
+                            <tr>
+                              <th colspan="6" class="text-center text-danger">Issued Drugs</th>
+                            </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Drug</th>
+                                <th>Quantity</th>
+                                <th>Quantity Left</th>
+                                <th>Department</th>
+                                <th>Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          @forelse( $issuedDrugs as $key => $issuedDrug)
+                            <tr>
+                              <td>{{ ++$key }}</td>
+                              <td>{{ $issuedDrug->drug->name }}</td>
+                              <td>{{ $issuedDrug->quantity }}</td>
+                              <td>{{ $issuedDrug->quantity_remaining }}</td>
+                              <td>{{ $issuedDrug->department->name }}</td>
+                              <td>{{ $issuedDrug->created_at }}</td>
+                            </tr>
+                          @empty
+                            <tr>
+                              <td colspan="6" class="text-center text-danger">No Drugs Issued Out yet</td>
+                            </tr>
+                          @endforelse
+                          </tbody>
+                      </table>
                     </div>
                 </div>
               </div>
-            </div>
 
 
     <!-- MODALS BELOW -->
@@ -291,7 +283,7 @@
               </div>
               <div class="col-md-12">
                 {{ Form::label('quantity_out', 'Quantity-Out') }}
-                {{ Form::number('quantity_out','', ['class' => 'form-control'] ) }}
+                {{ Form::number('quantity_out','', ['class' => 'form-control', 'min' => '1'] ) }}
                 <strong class="text-danger quantity_out-error"></strong>
                 {{ Form::hidden('stock', $stockBook['id'] ) }}
                 {{ Form::hidden('user', Auth::user()->id ) }}
@@ -379,6 +371,7 @@
                 $("input[name=manufacture_date]").val('')
                 $("input[name=batch_number]").val('')
                 $("input[name=voucher_no]").val('')
+                location.reload();
               }
           },
           error: function (xhr, thrown, unkmown){
@@ -428,6 +421,7 @@
                 $("input[name=department]").val('')
                 $("input[name=issued_date]").val('')
                 $(".print-success-msg").html(data.message)
+                location.reload();
               }
           },
           error: function (xhr, thrown, unkmown){

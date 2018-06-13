@@ -8,13 +8,13 @@ Department Report - {{ strtoupper($currentUser->healthFacility->name) . " " .str
 
 @section('content')
     <div class="card">
-        <div class="card-header bg-light">
+        <div class="card-body bg-light">
 
             <h5> <b>{{ strtoupper($currentUser->healthFacility->name) . " " .strtoupper($currentUser->healthFacility->level) }} - Submit Department Report</b> </h5>
 
             <div class="card-actions">
-                <a href="{{ route('departments.index') }}" class="btn">
-                    <i class="fa fa-eye"></i>
+                <a href="{{ route('department.report.all') }}" class="btn">
+                    <i class="fa fa-eye"></i> All Reports
                 </a>
 
                 <a href="{{ URL::current() }}" class="btn">
@@ -22,9 +22,10 @@ Department Report - {{ strtoupper($currentUser->healthFacility->name) . " " .str
                 </a>
             </div>
         </div>
-
+      </div>
+      @include ('components.notifications')
+        <div class="card">
         <div class="card-body">
-          @include ('components.notifications')
             {{ Form::open(['route' => 'department.report.store']) }}
               <div class="row">
                 <div class="form-group col-md-6">
@@ -41,7 +42,7 @@ Department Report - {{ strtoupper($currentUser->healthFacility->name) . " " .str
                     @forelse( $departments as $department)
                       <optgroup label="{{ $department['name']}}">
                         @forelse( $department->issueDrugs as $issueDrug)
-                          <option value="{{ $issueDrug['id'] }}" {{ old('drug') == $issueDrug->drug['id'] ? 'selected' : '' }}> {{ $issueDrug->drug->name }}</option>
+                          <option value="{{ $issueDrug['id'] }}" {{ old('issued_drug') == $issueDrug['id'] ? 'selected' : '' }}> {{ $issueDrug->drug->name }}</option>
                         @empty
                           <option value="">No Drugs have been issued</option>
                         @endforelse
@@ -68,9 +69,13 @@ Department Report - {{ strtoupper($currentUser->healthFacility->name) . " " .str
                     <strong class="text-danger">{{ $errors->first('quantity') }}</strong>
                   @endif
                 </div>
-              </div>
-              <div class="form-group col-md-6">
-                {{ Form::submit('Save Data', ['class' => 'btn btn-sm btn-primary']) }}
+                <div class="form-group col-md-12">
+                  {{ Form::label('comment') }}
+                  {{ Form::textarea('comment', '', ['class' => 'form-control', 'rows' => '3']) }}
+                </div>
+                <div class="form-group col-md-6">
+                  {{ Form::submit('Submit Report', ['class' => 'btn btn-md btn-block btn-primary']) }}
+                </div>
               </div>
 
             {{ Form::close() }}

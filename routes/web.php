@@ -16,6 +16,7 @@ Route::resource('health-workers', 'HealthWorkerController')->only(['index', 'cre
 Route::get('health_facilities_under/{level}', 'HomeController@healthFacilitiesUnder')->name('healthFacilities.under');
 Route::resource('health_facilities_below','HealthFacilityBelowController');
 
+Route::get('department/reports/all', 'HomeController@allDepartmentReport')->name('department.report.all');
 Route::get('department/report', 'HomeController@departmentReport')->name('department.report');
 Route::post('department/report', 'HomeController@departmentStoreReport')->name('department.report.store');
 Route::resource('order-lists', 'OrderListController');

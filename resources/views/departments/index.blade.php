@@ -14,11 +14,11 @@
 
             <div class="card-actions">
                 <a href="{{ route('departments.create') }}" class="btn">
-                    <i class="fa fa-plus-circle"></i>
+                    <i class="fa fa-plus-circle"></i> Create New
                 </a>
 
                 <a href="{{ URL::current() }}" class="btn">
-                    <i class="icon icon-refresh"></i>
+                    <i class="icon icon-refresh"></i> Reload
                 </a>
             </div>
         </div>
@@ -40,7 +40,7 @@
                 <td>{{ ++$key }}</td>
                 <td>{{ $department['name'] }}</td>
                 <td>{{ $department->issueDrugs()->count() }}</td>
-                <td>{{ $department['created_at'] }}</td>
+                <td>{{ \Carbon\Carbon::parse($department['created_at'])->toDayDateTimeString() }}</td>
                 <td>
                   <a href="{{ route('departments.edit', $department['id']) }}" class="btn btn-success btn-sm">
                     <i class="fa fa-edit"></i> &nbsp;
@@ -50,6 +50,7 @@
                       <i class="fa fa-trash"></i> &nbsp;
                     </button>
                   {{ Form::close() }}
+                  <a href="{{ route('department.report') }}" class="btn btn-sm btn-primary">Submit Report</a>
                 </td>
               </tr>
             @empty

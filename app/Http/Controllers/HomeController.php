@@ -16,8 +16,9 @@ use App\Department;
 use App\Cycle;
 use Auth;
 use App\HealthFacility;
+use App\DepartmentReport;
 use Validator;
-use Carbon;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -135,7 +136,7 @@ class HomeController extends Controller
     {
       Validator::make($request->all(), [
         'quantity_available' => 'required',
-        'quantity' => 'required|integer|max:' .$request->quantity_available,
+        'quantity' => 'required|integer|min:1|max:' .$request->quantity_available,
         'issued_drug' => 'required',
         'comment' => 'nullable|max:200',
       ])->Validate();
@@ -162,5 +163,11 @@ class HomeController extends Controller
         return redirect()->back()->with(['error' => 'Unable to save this report']);
       }
 
+    }
+
+    public function allDepartmentReport()
+    {
+        $reports = DepartmentReport::with('issuedDrug.drug')->paginate(20);
+        return view('departments.all-reports', compact('reports'));
     }
 }

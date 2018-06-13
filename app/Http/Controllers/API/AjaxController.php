@@ -77,7 +77,7 @@ class AjaxController extends Controller
 
       $validator = Validator($request->all(), [
         'department' => 'required|integer',
-        'drug' => 'required|integer',
+        'drug' => 'required|integer|min:1',
         'user' => 'required|integer',
         'stock' => 'required|integer',
         'quantity_out' => 'required|integer|min:0|max:1000000',

@@ -94,24 +94,6 @@
 
                     <li class="nav-item nav-dropdown">
                         <a href="#" class="nav-link nav-dropdown-toggle">
-                            <i class="icon icon-wrench"></i> Order Management <i class="fa fa-caret-left"></i>
-                        </a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="{{ route('cycles') }}" class="nav-link">
-                                    <i class="icon icon-notebook"></i> Financial Year Cycles
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('orders.index') }}" class="nav-link">
-                                    <i class="icon icon-notebook"></i> Orders
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
                             <i class="icon icon-home"></i> Departments<i class="fa fa-caret-left"></i>
                         </a>
                         <ul class="nav-dropdown-items">
@@ -128,6 +110,24 @@
                             <li class="nav-item">
                                 <a href="{{ route('department.report') }}" class="nav-link">
                                     <i class="icon icon-plus"></i> Submit Report
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-wrench"></i> Order Management <i class="fa fa-caret-left"></i>
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="{{ route('cycles') }}" class="nav-link">
+                                    <i class="icon icon-notebook"></i> Financial Year Cycles
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('orders.index') }}" class="nav-link">
+                                    <i class="icon icon-notebook"></i> Orders
                                 </a>
                             </li>
                         </ul>
@@ -240,6 +240,11 @@
 
         <div class="content">
             @yield('content')
+
+            <hr>
+            <div class="footer col-md-12">
+              &copy; 2018 All Rights Reserved. Developed By Group 7. Makerere University
+            </div>
         </div>
     </div>
 </div>
