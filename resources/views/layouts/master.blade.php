@@ -122,7 +122,7 @@
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
                                 <a href="{{ route('cycles') }}" class="nav-link">
-                                    <i class="icon icon-notebook"></i> Financial Year Cycles
+                                    <i class="icon icon-notebook"></i> Order Drugs
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -149,8 +149,18 @@
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ route('stock-cards.index') }}" class="nav-link">
-                                  <i class="icon icon-minus"></i> All Stock Cards
+                              <a href="{{ route('drugs.received') }}" class="nav-link">
+                                  <i class="icon icon-minus"></i> Received Drugs
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="{{ route('drugs.issued') }}" class="nav-link">
+                                  <i class="icon icon-minus"></i> Issued Drugs
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="{{ route('drugs.expired') }}" class="nav-link">
+                                  <i class="icon icon-minus"></i> Expired Drugs
                               </a>
                           </li>
                         </ul>

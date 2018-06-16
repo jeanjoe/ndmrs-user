@@ -37,15 +37,17 @@ class HomeController extends Controller
 
         if ($healthFacility->level == 'HOSPITAL') {
             $level = 'DH';
-        } elseif ($healthFacility->level = 'REFERRAL') {
+        } elseif ($healthFacility->level = 'NATIONAL REFERRAL') {
             $level= 'NRH';
+        } elseif ($healthFacility->level = 'REGIONAL REFERRAL') {
+            $level= 'RRH';
         } else {
             $level= $healthFacility->level;
         }
         $financialYears = FinancialYear::get();
         $drugs = Drug::all();
         $cycles = Cycle::with(['orderLists' => function ($query){
-          $query->where('health_facility_id', Auth::user()->id)->get();
+          $query->where('health_facility_id', Auth::user()->health_facility_id)->get();
         }],'financialYear')->get();
         return view('home',  compact('healthWorkers', 'financialYears', 'level', 'orders', 'drugs', 'cycles') );
     }
@@ -63,9 +65,11 @@ class HomeController extends Controller
         return view('settings');
     }
 
-    public function reports()
+    public function reports(Request $request)
     {
-        return view('reports.index');
+        $getYear = $request->input('financialYear');
+        $financialYears = FinancialYear::with('cycles')->pluck('financial_year', 'id');
+        return view('reports.index', compact('financialYears', 'getYear'));
     }
 
     public function healthWorkers()

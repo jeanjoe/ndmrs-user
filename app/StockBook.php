@@ -25,4 +25,9 @@ class StockBook extends Model
     {
         return $this->hasMany('App\ReceivedDrug');
     }
+
+    public function issuedDrugs()
+    {
+        return $this->hasMany('App\IssuedDrug');
+    }
 }

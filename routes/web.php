@@ -21,6 +21,9 @@ Route::get('department/report', 'HomeController@departmentReport')->name('depart
 Route::post('department/report', 'HomeController@departmentStoreReport')->name('department.report.store');
 Route::resource('order-lists', 'OrderListController');
 Route::get('cycles', 'HomeController@cycles')->name('cycles');
+Route::get('drugs/received', 'DrugController@received')->name('drugs.received');
+Route::get('drugs/issued', 'DrugController@issued')->name('drugs.issued');
+Route::get('drugs/expired', 'DrugController@expired')->name('drugs.expired');
 Route::get('cycles/{id}/order', 'HomeController@cycleOrder')->name('cycles.order.show');
 Route::get('cycles/{id}/order/create', 'HomeController@cycleOrderCreate')->name('cycles.order.create');
 Route::post('cycles/{id}/order/create', 'HomeController@saveCycleOrderCreate')->name('cycles.order.save');

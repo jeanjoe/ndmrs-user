@@ -10,4 +10,9 @@ class ReceivedDrug extends Model
     {
         return $this->belongsTo('App\Drug');
     }
+
+    public function stockBook()
+    {
+        return $this->belongsTo('App\StockBook', 'stock_book_id', 'id');
+    }
 }
