@@ -30,8 +30,8 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        $healthWorkers = HealthWorker::where('health_facility_id', Auth::user()->id)->get();
-        $orders = Order::where('health_facility_id', Auth::user()->id)->get();
+        $healthWorkers = HealthWorker::where('health_facility_id', Auth::user()->health_facility_id)->get();
+        $orders = Order::with('orderLists')->where('health_facility_id', Auth::user()->health_facility_id)->get();
         $healthFacility = HealthFacility::where('id', Auth::user()->health_facility_id)->first();
         $level = '';
 

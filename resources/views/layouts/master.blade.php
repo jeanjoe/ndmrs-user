@@ -172,8 +172,8 @@
                         </a>
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                                <a href="{{ route('reports') }}" class="nav-link">
-                                    <i class="icon icon-graph"></i> Reports
+                                <a href="{{ route('drugs.analyzed') }}?drug=1" class="nav-link">
+                                    <i class="icon icon-graph"></i> Analyse Drug
                                 </a>
                             </li>
                         </ul>

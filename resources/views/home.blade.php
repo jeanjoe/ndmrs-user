@@ -198,10 +198,18 @@
         new Chart(barChart, {
             type: 'bar',
             data: {
-                labels: ["Red", "Blue", "Cyan", "Green", "Purple", "Orange"],
+                labels: [
+                  @foreach( $orders as $order)
+                    "{{ $order['order_code'] }}",
+                  @endforeach
+                ],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: 'Order Items',
+                    data: [
+                      @foreach( $orders as $order)
+                        {{ $order->orderLists()->count() }},
+                      @endforeach
+                    ],
                     backgroundColor: [
                         'rgba(244, 88, 70, 0.5)',
                         'rgba(33, 150, 243, 0.5)',

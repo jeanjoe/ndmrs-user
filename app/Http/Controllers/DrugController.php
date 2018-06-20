@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 use App\Drug;
 use App\StockBook;
 use App\ReceivedDrug;
+use App\Cycle;
+use App\FinancialYear;
+use App\IssuedDrug;
 use Carbon\Carbon;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class DrugController extends Controller
 {
@@ -33,5 +37,33 @@ class DrugController extends Controller
     {
       $expiredDrugs = ReceivedDrug::with('drug')->where('expiry_date', '<=', Carbon::today())->get();
       return view('drugs.expired', compact('expiredDrugs'));
+    }
+
+    public function analyzed(Request $request)
+    {
+      $healthFacility_drug_ID = $request->input('drug');
+      $financialYearID = $request->input('financialYear', 1);
+      $cycles = Cycle::where('financial_year_id', $financialYearID)->pluck('id');
+
+      $stockBookIDs = StockBook::where('health_facility_id', Auth::user()->health_facility_id)->whereIn('cycle_id', $cycles)->pluck('id');
+
+      $healthFacilities_drugs = IssuedDrug::whereIn('stock_book_id', $stockBookIDs)->get();
+
+      if (empty($healthFacility_drug_ID) && $healthFacilities_drugs->count() > 1) {
+        $healthFacility_drug_ID = $healthFacilities_drugs[0]->id;
+      }
+
+      $financialYears = FinancialYear::pluck('financial_year', 'id');
+      $financialYear = FinancialYear::find($financialYearID);
+
+      $drug = Drug::find($healthFacility_drug_ID);
+
+      $distinctDrugMonths = ReceivedDrug::select(DB::raw('MONTH(receive_date) month'))->with(['drugs' => function ($query) use ($healthFacility_drug_ID) {
+        $query->where('drug_id', $healthFacility_drug_ID)->get();
+      }])->where('drug_id', $healthFacility_drug_ID )->whereIn('stock_book_id', $stockBookIDs)->groupBy('month')->get();
+
+      $receivedDrugs = ReceivedDrug::with('drug')->select('drug_id')->distinct()->get();
+
+      return view('drugs.analyzed', compact('receivedDrugs', 'financialYear', 'drug', 'financialYears', 'stockBookIDs', 'distinctDrugMonths', 'healthFacility_drug_ID' ));
     }
 }

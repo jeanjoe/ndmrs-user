@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ReceivedDrug extends Model
 {
@@ -15,4 +16,10 @@ class ReceivedDrug extends Model
     {
         return $this->belongsTo('App\StockBook', 'stock_book_id', 'id');
     }
+
+    public function drugs()
+    {
+        return $this->hasMany('App\ReceivedDrug', 'receive_date', 'receive_date');
+    }
+
 }

@@ -10,11 +10,14 @@
     <div class="card">
         <div class="card-body bg-light">
 
-            <strong>{{ $currentUser->healthFacility->name }} - Received Drugs</strong>
+            <strong>{{ $currentUser->healthFacility->name }} - Issued Drugs</strong>
 
             <div class="float-right">
                 <a href="{{ URL::current() }}" class="btn btn-sm btn-warning">
                     <i class="icon icon-refresh"></i> Refresh Pages
+                </a>
+                <a href="{{ route('drugs.analyzed') }}" class="btn btn-sm btn-success">
+                    <i class="icon icon-refresh"></i> Analyze
                 </a>
             </div>
         </div>
