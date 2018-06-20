@@ -2,6 +2,7 @@
 Auth::routes();
 Route::get('/', 'HomeController@dashboard')->name('dashboard');
 Route::get('/settings', 'HomeController@settings')->name('settings');
+Route::get('/settings/edit', 'HomeController@edit')->name('edit');
 Route::get('/reports', 'HomeController@reports')->name('reports');
 Route::resource('orders', 'OrderController')->only(['index', 'store', 'show']);
 Route::resource('departments', 'DepartmentController');
@@ -12,11 +13,12 @@ Route::resource('stocks', 'StockController')->except(['create']);
 Route::resource('health-facilities', 'HealthFacilityController')->except(['create', 'store', 'destroy', 'update', 'edit']);
 Route::get('/users', 'AjaxController@ajaxUsers');
 Route::post('/users', 'AjaxController@ajaxUsersSave');
-Route::resource('health-workers', 'HealthWorkerController')->only(['index', 'create', 'store', 'destroy']);
+Route::resource('health-workers', 'HealthWorkerController')->only(['index', 'create', 'store', 'update', 'destroy']);
 Route::get('health_facilities_under/{level}', 'HomeController@healthFacilitiesUnder')->name('healthFacilities.under');
 Route::resource('health_facilities_below','HealthFacilityBelowController');
 
 Route::get('department/reports/all', 'HomeController@allDepartmentReport')->name('department.report.all');
+Route::get('department/reports/all/{id}', 'HomeController@allDepartmentReportShow')->name('department.report.show');
 Route::get('department/report', 'HomeController@departmentReport')->name('department.report');
 Route::post('department/report', 'HomeController@departmentStoreReport')->name('department.report.store');
 Route::resource('order-lists', 'OrderListController');

@@ -128,12 +128,23 @@ class HomeController extends Controller
 
     }
 
+    public function edit()
+    {
+        return view('health-workers.edit');
+    }
+
     public function departmentReport()
     {
       $departments = Department::with(['issueDrugs' => function ($query) {
         $query->where('quantity_remaining', '>=', 1)->get();
       }])->where('health_facility_id', Auth::user()->health_facility_id)->get();
       return view('departments.report', compact('departments'));
+    }
+
+    public function allDepartmentReportShow($id)
+    {
+      $report = DepartmentReport::with('issueDrug')->findOrFail($id);
+      return view('departments.show-report', compact('report'));
     }
 
     public function departmentStoreReport(Request $request)

@@ -55,12 +55,8 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header">My Account</div>
 
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-user"></i> Profile
-                    </a>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-bell"></i> Notifications
+                    <a href="{{ route('edit') }}" class="dropdown-item">
+                        <i class="fa fa-user"></i> Edit Profile
                     </a>
 
                     <a href="{{ route('settings') }}" class="dropdown-item">

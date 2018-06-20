@@ -64,7 +64,7 @@ Department Report - {{ strtoupper($currentUser->healthFacility->name) . " " .str
                 </div>
                 <div class="form-group col-md-6">
                   {{ Form::label('quantity_out') }}
-                  {{ Form::number('quantity', '', ['class' => 'form-control']) }}
+                  {{ Form::number('quantity', '', ['class' => 'form-control', 'min' => '1']) }}
                   @if( $errors->has('quantity') )
                     <strong class="text-danger">{{ $errors->first('quantity') }}</strong>
                   @endif

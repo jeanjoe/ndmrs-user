@@ -1,15 +1,19 @@
 @extends('layouts.master')
 
-@section('title', 'NDRMS -Orders')
+@section('title')
+
+{{ strtoupper($currentUser->healthFacility->name) }} - Health Workers
+
+@endsection
 
 
 @section('content')
       <div class="card">
-        <div class="card-header bg-success">
-          {{ strtoupper($currentUser->healthFacility->name) ." ". strtoupper($currentUser->healthFacility->level) }} - HEALTH WORKERS
-          <div class="card-actions">
-              <a href="{{ route('health-workers.create') }}" class="btn">
-                  <i class="fa fa-plus-circle"></i>
+        <div class="card-body bg-light">
+          <strong>{{ strtoupper($currentUser->healthFacility->name) ." ". strtoupper($currentUser->healthFacility->level) }} - HEALTH WORKERS</strong>
+          <div class="float-right">
+              <a href="{{ route('health-workers.create') }}" class="btn btn-sm btn-primary">
+                  <i class="fa fa-plus-circle"></i> Create New
               </a>
 
               <a href="{{ URL::current() }}" class="btn btn-warning btn-sm">
