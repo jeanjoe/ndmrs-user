@@ -11,13 +11,18 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
-    <div class="page-wrapper flex-row align-items-center">
-        <div class="container">
-            <div class="row justify-content-center">
-                @yield('content')
-
+  <div class="page-wrapper flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-5">
+            <div class="card p-4 rounded">
+              @yield('content')
             </div>
+
+            <p class="text-center text-info text-small text-mute"> <strong> &copy; 2018 Developed By Group 7. All Rights Reserved</strong> </p>
+          </div>
         </div>
+      </div>
     </div>
 
   <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
