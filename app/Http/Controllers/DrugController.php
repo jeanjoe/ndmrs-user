@@ -61,9 +61,15 @@ class DrugController extends Controller
       $distinctDrugMonths = ReceivedDrug::select(DB::raw('MONTH(receive_date) month'))->with(['drugs' => function ($query) use ($healthFacility_drug_ID) {
         $query->where('drug_id', $healthFacility_drug_ID)->get();
       }])->where('drug_id', $healthFacility_drug_ID )->whereIn('stock_book_id', $stockBookIDs)->groupBy('month')->get();
-
+      //dd($distinctDrugMonths);
       $receivedDrugs = ReceivedDrug::with('drug')->select('drug_id')->distinct()->get();
 
-      return view('drugs.analyzed', compact('receivedDrugs', 'financialYear', 'drug', 'financialYears', 'stockBookIDs', 'distinctDrugMonths', 'healthFacility_drug_ID' ));
+      $distinct_stock_Drugs = ReceivedDrug::with('drug', 'quantity', 'quantity_remaining')
+        ->select('drug_id')
+        ->where('drug_id', $healthFacility_drug_ID)
+        ->distinct()
+        ->get();
+        $expiredDrugs = ReceivedDrug::with('drug')->where([['expiry_date', '<=', Carbon::today()], ['drug_id', $healthFacility_drug_ID]])->get();
+      return view('drugs.analyzed', compact('receivedDrugs','expiredDrugs', 'distinct_stock_Drugs', 'financialYear', 'drug', 'financialYears', 'stockBookIDs', 'distinctDrugMonths', 'healthFacility_drug_ID' ));
     }
 }

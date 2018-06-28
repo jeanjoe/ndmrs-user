@@ -114,3 +114,60 @@
         </div>
       </div>
   @endsection
+
+
+  @section('script')
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+
+      /**
+       * Line Chart
+       */
+      var lineChart = $('#line-chart');
+
+      if (lineChart.length > 0) {
+          new Chart(lineChart, {
+              type: 'line',
+              data: {
+                  labels: [
+                    @foreach($cycles as $cycle)
+                      {!! "'".$cycle['name'] . " " . $cycle->financialYear['financial_year'] . "'," !!}
+                    @endforeach
+                  ],
+                  datasets: [{
+                      label: '2018',
+                      data: [
+                        @foreach($cycles as $cycle)
+                          {!! "'".$cycle->orderLists->count() . "'," !!}
+                        @endforeach
+                      ],
+                      backgroundColor: "rgba(153,255,51,0.4)",
+                      borderColor: '#2196F3',
+                      borderWidth: 1
+                  }
+                ]
+              },
+              options: {
+                  legend: {
+                      display: true
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true
+                          }
+                      }]
+                  }
+              }
+          });
+      }
+
+
+
+    });
+
+    </script>
+
+  @endsection

@@ -51,12 +51,19 @@
               {{ Form::close() }}
             </div>
         </div>
-
+        @foreach($expiredDrugs as $expiredDrug)
+        {{ $expiredDrug->drug['name'] }}
+        {{ $expiredDrug['quantity_remaining'] }}
+        @endforeach
         <div class="row">
           <div class="col-md-6">
             <div class="card">
               <div class="card-header bg-light">
-                <center><strong>Received Quantities</strong></center>
+                <center><strong>Received Quantities for
+                  @foreach($distinct_stock_Drugs as $distinct_stock_Drug)
+                  {{ $distinct_stock_Drug->drug->name }}
+                  @endforeach
+                </strong></center>
               </div>
               <div class="card-body">
                 @if( $distinctDrugMonths)
@@ -74,7 +81,11 @@
           <div class="col-md-6">
             <div class="card">
               <div class="card-header bg-light">
-                <center><strong>Issued Quantities</strong></center>
+                <center><strong>Issued Quantities of
+                  @foreach($distinct_stock_Drugs as $distinct_stock_Drug)
+                  {{ $distinct_stock_Drug->drug->name }}
+                  @endforeach
+                </strong></center>
               </div>
 
               <div class="card-body">
@@ -86,6 +97,54 @@
               </div>
               <div class="card-footer border-info text-center">
                 <a href="{{ route('drugs.issued') }}" class="btn btn-sm btn-primary">View Issued Drugs</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header bg-light">
+                <center><strong>
+                  @foreach($distinct_stock_Drugs as $distinct_stock_Drug)
+                  {{ $distinct_stock_Drug->drug->name }}
+                  @endforeach
+                  Stock Usage
+                </strong></center>
+              </div>
+
+              <div class="card-body">
+                @if( $distinctDrugMonths)
+                <canvas id="pie-usage" width="100%" height="50"></canvas>
+                @else
+                  <h4 class="text-center">No Drugs Issued </h4>
+                @endif
+              </div>
+              <div class="card-footer border-info text-center">
+                <a href="{{ route('drugs.issued') }}" class="btn btn-sm btn-primary">View Issued Drugs</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header bg-light">
+                <center><strong>Expired
+                  @foreach($distinct_stock_Drugs as $distinct_stock_Drug)
+                  {{ $distinct_stock_Drug->drug->name }}
+                  @endforeach
+                  Drugs
+                </strong></center>
+              </div>
+
+              <div class="card-body">
+                @if( $distinctDrugMonths)
+                <canvas id="pie-expired" width="100%" height="50"></canvas>
+                @else
+                  <h4 class="text-center">No Drugs Issued </h4>
+                @endif
+              </div>
+              <div class="card-footer border-info text-center">
+                <a href="{{ route('drugs.expired') }}" class="btn btn-sm btn-primary">View Expired Drugs</a>
               </div>
             </div>
           </div>
@@ -122,27 +181,24 @@ $(document).ready(function () {
 
                   ],
                   backgroundColor: [
-                      'rgba(244, 88, 70, 0.5)',
-                      'rgba(33, 150, 243, 0.5)',
-                      'rgba(0, 188, 212, 0.5)',
-                      'rgba(42, 185, 127, 0.5)',
-                      'rgba(156, 39, 176, 0.5)',
-                      'rgba(253, 178, 68, 0.5)'
+                      "#295a01",
+                      "#295a01",
+                      "#295a01",
+                      "#295a01",
+                      "#295a01",
+                      "#295a01",
+                      "#295a01",
                   ],
                   borderColor: [
                       '#F45846',
-                      '#2196F3',
-                      '#00BCD4',
-                      '#2ab97f',
-                      '#9C27B0',
-                      '#fdb244'
+
                   ],
                   borderWidth: 1
               }]
           },
           options: {
               legend: {
-                  display: false
+                  display: true
               },
               scales: {
                   yAxes: [{
@@ -154,6 +210,94 @@ $(document).ready(function () {
           }
       });
   }
+  /////////////////////////////////////////////////////////
+
+  var pieChart = $('#pie-usage');
+
+  if (pieChart.length > 0) {
+      new Chart(pieChart, {
+          type: 'pie',
+          data: {
+              labels: [
+                    "Quantity Received", "Quantity Used"
+              ],
+              datasets: [{
+                  label: 'Quantity',
+                  data: [
+                    @foreach($distinct_stock_Drugs as $distinct_stock_Drug)
+                      {{ $distinct_stock_Drug->quantity()->sum('quantity') }},
+                      {{ $distinct_stock_Drug->quantity_remaining()->sum('quantity_remaining') }}
+                      @endforeach
+
+                  ],
+                  backgroundColor: [
+                      "#092701",
+                      "#F93E10",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                  ],
+                  borderColor: [
+                      'rgba(244, 88, 70, 0.5)',
+
+                  ],
+                  borderWidth: 1
+              }]
+          }
+      });
+
+  }
+
+
+  //////////////////////////////////////////////////
+
+  var pieChart = $('#pie-expired');
+
+  if (pieChart.length > 0) {
+      new Chart(pieChart, {
+          type: 'pie',
+          data: {
+              labels: [
+                    "Quantity Received", "Quantity Expired"
+              ],
+              datasets: [{
+                  label: 'Quantity',
+                  data: [
+                    @foreach($distinct_stock_Drugs as $distinct_stock_Drug)
+                      {{ $distinct_stock_Drug->quantity()->sum('quantity') }},
+                      {{ $expiredDrug['quantity_remaining'] or 'Not Found' }}
+                      @endforeach
+
+                  ],
+                  backgroundColor: [
+                      "#092701",
+                      "#F93E10",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                  ],
+                  borderColor: [
+                      'rgba(244, 88, 70, 0.5)',
+
+                  ],
+                  borderWidth: 1
+              }]
+          }
+      });
+
+  }
+
+
+
+  ///////////////////////////////////////////////
   var pieChart = $('#pie-chart');
 
   if (pieChart.length > 0) {
@@ -177,20 +321,19 @@ $(document).ready(function () {
 
                   ],
                   backgroundColor: [
-                      'rgba(244, 88, 70, 0.5)',
-                      'rgba(33, 150, 243, 0.5)',
-                      'rgba(0, 188, 212, 0.5)',
-                      'rgba(42, 185, 127, 0.5)',
-                      'rgba(156, 39, 176, 0.5)',
-                      'rgba(253, 178, 68, 0.5)'
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
+                      "#092701",
                   ],
                   borderColor: [
                       'rgba(244, 88, 70, 0.5)',
-                      'rgba(33, 150, 243, 0.5)',
-                      'rgba(0, 188, 212, 0.5)',
-                      'rgba(42, 185, 127, 0.5)',
-                      'rgba(156, 39, 176, 0.5)',
-                      'rgba(253, 178, 68, 0.5)'
+
                   ],
                   borderWidth: 1
               }]

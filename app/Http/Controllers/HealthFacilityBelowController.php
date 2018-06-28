@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\HealthFacility;
+use App\Cycle;
+use Auth;
 
 class HealthFacilityBelowController extends Controller
 {
@@ -48,7 +50,11 @@ class HealthFacilityBelowController extends Controller
     {
         try {
           $facility = HealthFacility::findOrFail($id);
-          return view('health_facilities/health_facilities_below.show', compact('facility'));
+
+          $cycles = Cycle::with(['orderLists' => function ($query) use ($id) {
+          $query->where('health_facility_id',$id)->get();
+          }],'financialYear')->get();
+          return view('health_facilities/health_facilities_below.show', compact('facility', 'cycles'));
 
         } catch (\Exception $e) {
 
