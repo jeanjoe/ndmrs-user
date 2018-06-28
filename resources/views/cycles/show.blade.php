@@ -121,7 +121,10 @@
         <div class="col-md-4">
           <div class="card bg-light">
             <div class="card-body">
-              <strong>Amount Used:</strong> <span class="badge badge-success">{{ number_format( $cycle->orderLists()->sum('total_cost')) }} UGX</span>
+              <div class="float-right">
+                <a href="{{ URL::previous() }}" class="btn btn-danger btn-sm"><i class="fa fa-reply"></i> Back</a>
+                <a href="{{ url()->full() }}" class="btn btn-warning btn-sm"><i class="icon icon-reload"></i> Reload</a>
+              </div>
             </div>
           </div>
           <div class="card">
@@ -134,7 +137,7 @@
                 <hr>
                 <button type="button" class="btn btn-md btn-block btn-{{ $findIfOrderExists['status'] == 1 ? 'success' : 'warning' }}" name="button">Order Status {{ $findIfOrderExists['status'] == 1 ? 'Approved' : 'Pending...' }} </button>
               @else
-                {{ Form::open(['route' => 'order-lists.store']) }}
+                {{ Form::open(['route' => 'order-lists.store', 'id' => 'form']) }}
                   <div class="form-group">
                     <select class="form-control" onchange="getDrug(this);" id="drug" name="drug">
                       <option value="">Select Drug to add</option>
@@ -186,6 +189,13 @@
                   </div>
                 {{ Form::close() }}
               @endif
+
+              @if(($percentageAmount - $cycle->orderLists()->sum('total_cost')) <= 0)
+                <div class="alert alert-danger">
+                  <strong>Your Expenditure Has Exceeded your Budget</strong>
+                  {{ Form::hidden('amountOver', ($percentageAmount - $cycle->orderLists()->sum('total_cost')), ['id' => 'amountOver'] ) }}
+                </div>
+              @endif
             </div>
           </div>
         </div>
@@ -200,6 +210,10 @@
 
     $(document).ready( function (){
       var drug = document.getElementById("drug");
+
+      if ($("#amountOver").val() <= 0) {
+        $("#form").hide();
+      }
       var drugID = drug.options[drug.selectedIndex].value;
 
       if (typeof drug !== '') {
