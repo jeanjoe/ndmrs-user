@@ -20,7 +20,7 @@ class OrderController extends Controller
 
       public function index()
       {
-        $orders = Order::with('healthFacility', 'cycle', 'orderLists.cycle.financialYear', 'healthWorker')->orderBy('created_at', 'desc')->get();
+        $orders = Order::with('healthFacility', 'cycle', 'orderLists.cycle.financialYear', 'healthWorker')->where('health_facility_id', Auth::user()->health_facility_id)->orderBy('created_at', 'desc')->get();
         return view('orders.index', compact('orders'));
       }
 

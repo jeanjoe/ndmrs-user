@@ -8,22 +8,22 @@
         @include('components.notifications')
         <div class="row">
             <div class="col-md-3">
-                <div class="card p-4">
+                <div class="card rounded p-2">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="h4 d-block font-weight-normal mb-2">{{ $financialYears ? number_format(($financialYears[0]->$level/ 100 ) * $financialYears[0]->budget) : 0 }} </span>
-                            <span class="font-weight-light">BUDGET (UGX)</span>
+                            <span class="h4 d-block font-weight-normal mb-2">{{ $currentFinancialYear ? number_format(($currentFinancialYear['budget']/ $sharedHealthFacilities->count() )) : 0 }} </span>
+                            <span class="font-weight-light">Current F.Y BUDGET</span>
                         </div>
 
                         <div class="h2 text-muted">
-                            <i class="icon icon-people"></i>
+                            <i class="fa fa-money"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card bg-success p-4">
+                <div class="card rounded p-2">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <span class="h4 d-block font-weight-normal mb-2">{{ number_format(count($drugs) ) }}</span>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="col-md-3">
-                <div class="card bg-default p-4">
+                <div class="card rounded p-2">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <span class="h4 d-block font-weight-normal mb-2">{{ number_format(count($orders) ) }}</span>
@@ -53,7 +53,7 @@
             </div>
 
             <div class="col-md-3">
-                <div class="card bg-primary p-4">
+                <div class="card rounded p-2">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <span class="h4 d-block font-weight-normal mb-2">{{ number_format(count($healthWorkers)) }}</span>
@@ -68,42 +68,53 @@
             </div>
         </div>
 
+        <div class="card">
+          <div class="card-body text-center">
+            <div class="p-4">
+                <canvas id="line-chart" width="100%" height="20"></canvas>
+            </div>
+            <strong>{{ $currentUser->healthFacility['name'] . " " . $currentUser->healthFacility['level'] }} ORDER SUMMARY</strong>
+          </div>
+        </div>
+
         <div class="row ">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        2018 Drug Supply
+                       Current FInancial Year
                     </div>
-
                     <div class="card-body p-0">
-                        <div class="p-4">
-                            <canvas id="line-chart" width="100%" height="20"></canvas>
-                        </div>
+                        @if($currentFinancialYear)
                         <div class="p-4">
                             <canvas id="bar-chart" width="100%" height="50"></canvas>
                         </div>
 
-                        <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
+                        <div class="justify-content-around mt-4 p-2 bg-light d-flex border-top d-md-down-none">
                             <div class="text-center">
                                 <div class="text-muted small">Referrals</div>
-                                <div>{{ $financialYears ? number_format(($financialYears[0]->NRH/ 100 ) * $financialYears[0]->budget) : 0 }} UGX ({{ $financialYears ? $financialYears[0]->NRH : 0 }}%)</div>
+                                <div>{{ $currentFinancialYear ? number_format(($currentFinancialYear->NRH/ 100 ) * $currentFinancialYear->budget) : 0 }} UGX ({{ $currentFinancialYear ? $currentFinancialYear->NRH : 0 }}%)</div>
                             </div>
 
                             <div class="text-center">
                                 <div class="text-muted small">Health Centre II</div>
-                                <div>{{ $financialYears ? number_format(($financialYears[0]->HCII/ 100 ) * $financialYears[0]->budget) : 0 }} UGX({{ $financialYears ? $financialYears[0]->HCII : 0 }}%)</div>
+                                <div>{{ $currentFinancialYear ? number_format(($currentFinancialYear->HCII/ 100 ) * $currentFinancialYear->budget) : 0 }} UGX({{ $currentFinancialYear ? $currentFinancialYear->HCII : 0 }}%)</div>
                             </div>
 
                             <div class="text-center">
                                 <div class="text-muted small">Health Centre III</div>
-                                <div>{{ $financialYears ? number_format(($financialYears[0]->HCIII/ 100 ) * $financialYears[0]->budget) : 0 }} UGX ({{ $financialYears ? $financialYears[0]->HCIII : 0 }}%)</div>
+                                <div>{{ $currentFinancialYear ? number_format(($currentFinancialYear->HCIII/ 100 ) * $currentFinancialYear->budget) : 0 }} UGX ({{ $currentFinancialYear ? $currentFinancialYear->HCIII : 0 }}%)</div>
                             </div>
 
                             <div class="text-center">
                                 <div class="text-muted small">Health Centre IV</div>
-                                <div>{{ $financialYears ? number_format(($financialYears[0]->HCIV/ 100 ) * $financialYears[0]->budget) : 0 }} UGX ({{ $financialYears ? $financialYears[0]->HCIV :0 }}%)</div>
+                                <div>{{ $currentFinancialYear ? number_format(($currentFinancialYear->HCIV/ 100 ) * $currentFinancialYear->budget) : 0 }} UGX ({{ $currentFinancialYear ? $currentFinancialYear->HCIV :0 }}%)</div>
                             </div>
                         </div>
+                        @else
+                          <div class="alert alert-info">
+                            <strong>Cannot Find CUrrent Financial Year</strong>
+                          </div>
+                        @endif
                     </div>
                 </div>
             </div>

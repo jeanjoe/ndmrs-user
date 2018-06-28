@@ -44,12 +44,13 @@ class HomeController extends Controller
         } else {
             $level= $healthFacility->level;
         }
+        $currentFinancialYear = FinancialYear::with('cycles')->whereDate('start_date', '<=', Carbon::now())->whereDate('end_date', '>=', Carbon::now())->first();
         $financialYears = FinancialYear::get();
         $drugs = Drug::all();
         $cycles = Cycle::with(['orderLists' => function ($query){
           $query->where('health_facility_id', Auth::user()->health_facility_id)->get();
         }],'financialYear')->get();
-        return view('home',  compact('healthWorkers', 'financialYears', 'level', 'orders', 'drugs', 'cycles') );
+        return view('home',  compact('healthWorkers', 'financialYears', 'currentFinancialYear', 'level', 'orders', 'drugs', 'cycles') );
     }
 
     public function hospitals()
@@ -92,18 +93,45 @@ class HomeController extends Controller
     public function cycleOrder($id)
     {
         try {
+
+          $orderedDrugs = OrderList::where(['cycle_id' => $id, 'health_worker_id' => Auth::user()->health_facility_id])->pluck('drug_id');
+
           $cycle = Cycle::with(['orderLists' => function ($query){
             $query->where('health_facility_id', Auth::user()->health_facility_id)->get();
+          }], ['stocks' => function ($query) use ($orderedDrugs) {
+            $query->whereNotIn('drug_id', $orderedDrugs)->get();
           }],'financialYear')->findOrFail($id);
-          $orderedDrugs = OrderList::where(['cycle_id' => $id, 'health_worker_id' => Auth::user()->health_facility_id])->pluck('drug_id');
 
           $findIfOrderExists = Order::where(['cycle_id' => $id, 'health_facility_id' => Auth::user()->health_facility_id])->first();
 
-          $drugs = Drug::whereNotIn('id', $orderedDrugs)->pluck('name', 'id');
-          // $drugs = Drug::where('level_of_care', 'ALL')->pluck('name', 'id');
-          return view('cycles.show', compact('cycle', 'drugs', 'findIfOrderExists'));
+          return view('cycles.show', compact('cycle', 'findIfOrderExists'));
         } catch (\Exception $e) {
           return redirect()->route('cycles')->with(['error' => 'Cannot find this cycle => ' . $e->getMessage()]);
+        }
+
+    }
+
+    public function revokeOrder($id)
+    {
+        try {
+          $order = Order::where(['order_code' => $id, 'status' => false])->first();
+          if ($order) {
+            DB::beginTransaction();
+
+            $order->forceDelete();
+
+            OrderList::where('commit_code', $id)->update(['commit_code' => '', 'committed' => false]);
+
+            DB::commit();
+
+            return redirect()->back()->with(['success' => 'Your Order has been revoked successfully']);
+          }else {
+            return redirect()->back()->with(['error' => 'Cannot find this commit code']);
+          }
+
+        } catch (\Exception $e) {
+          DB::rollback();
+          return redirect()->back()->with(['error' => 'Unable to Revoke your Commit => ' .$e->getMessage()]);
         }
 
     }

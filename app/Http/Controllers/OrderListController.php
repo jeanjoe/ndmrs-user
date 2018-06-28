@@ -36,16 +36,17 @@ class OrderListController extends Controller
      */
     public function store(Request $request)
     {
-      $validation = Validator::make($request->all(), [
+      Validator::make($request->all(), [
+        'drug' => 'required|integer',
         'quantity' => 'required|min:1|integer',
         'total_cost' => 'required',
         'cycle' => 'required',
         'quantity' => 'required',
-      ]);
+      ])->validate();
 
-      if ($validation->fails()) {
-        # code...
-        return redirect()->back()->withInput()->withErrors($validation->messages());
+      $findDrug = OrderList::where(['drug_id' => $request['drug'], 'cycle_id' => $request['cycle']])->first();
+      if ($findDrug) {
+        return redirect()->back()->withErrors(['drug' => 'This Drug has already been added to the Order list'])->withInput();
       }
 
       try {

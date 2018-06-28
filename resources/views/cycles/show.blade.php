@@ -2,27 +2,66 @@
 
 @section('title')
 
-  Financial Year - {{ $currentUser->healthFacility->name }}
+  Financial Year Cycle Stock Book - {{ $currentUser->healthFacility->name }}
 
 @endsection
 
 @section('content')
 
-    <div class="card">
-      <div class="card-body">
-        <strong>{{ strtoupper($cycle['name']) }} - {{ $cycle->financialYear['financial_year'] }}
-          <span class="float-right">Budget {{ number_format($cycle->financialYear['budget']/4) }} UGX</span> </strong>
+    <div class="row text-center">
+      <div class="col-md-3">
+        <div class="card rounded">
+          <div class="card-body">
+            <strong>Financial Year {{ $cycle->financialYear['financial_year'] }} </strong> <br>
+            <span>Budget</span>
+            <h4>{{ number_format($cycle->financialYear['budget']) }} UGX</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card rounded">
+          <div class="card-body">
+            <strong>{{ strtoupper($cycle['name']) }} </strong> <br>
+            <span>Cycle Budget</span>
+            <h4>{{ number_format($cycle->financialYear['budget']/4) }} UGX</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card rounded">
+          <div class="card-body">
+            <strong>{{ $currentUser->healthFacility->name . ' - ' . $currentUser->healthFacility['level'] }} </strong> <br>
+            <span>H.F Budget</span>
+            <h4>{{ number_format($cycle->financialYear['budget']/4) }} UGX</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card rounded">
+          <div class="card-body">
+            <strong>Budget Used: {{ number_format( $cycle->orderLists()->sum('total_cost')) }} UGX</strong> <br>
+            <span>Balance</span>
+            <h4>{{ number_format($cycle->financialYear['budget']/4) }} UGX</h4>
+          </div>
+        </div>
       </div>
     </div>
     @include('components.notifications')
       <div class="row">
         <div class="col-md-8">
           <div class="card">
-            <div class="card-header bg-light">
-              <strong>Cycle Order Lists</strong>
-             <div class="card-actions">
+            <div class="card-body">
+              <strong class="float-left">Cycle Order Lists</strong>
+             <div class="float-right">
                @if( $findIfOrderExists)
-                <button type="button" class="btn btn-danger btn-sm" name="button"><i class="fa fa-reply"></i> Revoke Order</button>
+                  @if($findIfOrderExists['status'] == 1)
+                    <button type="button" class="btn btn-success btn-sm" name="button">Order Committed {{ $findIfOrderExists['order_code'] }}</button>
+                  @else
+                    {{ Form::open(['route' => ['cycles.order.revoke', $findIfOrderExists['order_code']], 'method' => 'DELETE']) }}
+                    {{ Form::hidden('cycle', $cycle['id']) }}
+                     <button type="submit" class="btn btn-sm btn-danger btn-sm" onclick="return confirm('Are you sure you want to revoke this order?');"><i class="fa fa-reply"></i> REVOKE ORDER</button>
+                    {{ Form::close() }}
+                  @endif
                @else
                  {{ Form::open(['route' => 'orders.store']) }}
                  {{ Form::hidden('cycle', $cycle['id']) }}
@@ -94,7 +133,17 @@
               @else
                 {{ Form::open(['route' => 'order-lists.store']) }}
                   <div class="form-group">
-                    {{ Form::select('drug', $drugs, null, ['class' => 'form-control', 'id' => 'drug', 'placeholder' => 'Select Drug', 'onChange' => 'getDrug(this);']) }}
+                    <select class="form-control" onchange="getDrug(this);" id="drug" name="drug">
+                      <option value="">Select Drug to add</option>
+                      @forelse( $cycle->stocks as $stock )
+                        <option value="{{ $stock['drug_id'] }}" {{ old('drug') == $stock['drug_id'] ? 'selected' : '' }}>{{ $stock->drug->name }}</option>
+                      @empty
+                        <option value="">No Drugs Have been added to this Cycle Stock</option>
+                      @endforelse
+                    </select>
+                    @if($errors->has('drug'))
+                      <strong class="text-danger">{{ $errors->first('drug') }}</strong>
+                    @endif
                   </div>
                   <div class="form-group">
                     <select class="form-control" name="ven"><option value="V">Vital</option><option value="E">Essential</option><option value="N">Neccessary</option></select>
@@ -137,6 +186,8 @@
             </div>
           </div>
         </div>
+
+
       </div>
 
 @endsection
@@ -173,11 +224,17 @@
           url:'/api/drug/'+ drugID,
           type:'GET',
           success:function(data) {
+            console.log(data);
             var quantity = $("input[name=quantity]").val()
             if(data.success == 1) {
               $("input[name=total_cost]").val(data.drug.cost_per_unit * quantity)
               $("input[name=unit_cost]").val(data.drug.cost_per_unit)
             }
+          },
+          error : function ( xhr, thrown, unknown) {
+            console.log(xhr);
+            console.log(thrown);
+            console.log(unknown);
           },
       });
     }

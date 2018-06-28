@@ -15,4 +15,9 @@ class Cycle extends Model
     {
         return $this->hasMany('App\OrderList');
     }
+
+    public function stocks()
+    {
+        return $this->hasManyThrough('App\Stock','App\StockCard');
+    }
 }
