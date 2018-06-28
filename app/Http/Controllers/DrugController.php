@@ -62,7 +62,7 @@ class DrugController extends Controller
         $query->where('drug_id', $healthFacility_drug_ID)->get();
       }])->where('drug_id', $healthFacility_drug_ID )->whereIn('stock_book_id', $stockBookIDs)->groupBy('month')->get();
       //dd($distinctDrugMonths);
-      $receivedDrugs = ReceivedDrug::with('drug')->select('drug_id')->distinct()->get();
+      $receivedDrugs = ReceivedDrug::with('drug')->select('drug_id')->distinct()->whereIn('stock_book_id', $stockBookIDs)->get();
 
       $distinct_stock_Drugs = ReceivedDrug::with('drug', 'quantity', 'quantity_remaining')
         ->select('drug_id')

@@ -269,7 +269,7 @@ $(document).ready(function () {
                   data: [
                     @foreach($distinct_stock_Drugs as $distinct_stock_Drug)
                       {{ $distinct_stock_Drug->quantity()->sum('quantity') }},
-                      {{ $expiredDrug['quantity_remaining'] or 'Not Found' }}
+                      {{ $expiredDrug['quantity_remaining'] or '0' }}
                       @endforeach
 
                   ],
