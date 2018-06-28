@@ -118,12 +118,12 @@
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
                                 <a href="{{ route('cycles') }}" class="nav-link">
-                                    <i class="icon icon-notebook"></i> Order Drugs
+                                    <i class="icon icon-plus"></i> Make Order
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('orders.index') }}" class="nav-link">
-                                    <i class="icon icon-notebook"></i> Orders
+                                    <i class="icon icon-notebook"></i> Order Lists
                                 </a>
                             </li>
                         </ul>
