@@ -11,7 +11,7 @@
                 <div class="card rounded p-2">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="h4 d-block font-weight-normal mb-2">{{ $currentFinancialYear ? number_format(($currentFinancialYear['budget']/ $sharedHealthFacilities->count() )) : 0 }} </span>
+                            <span class="h4 d-block font-weight-normal mb-2">{{ $currentFinancialYear ? number_format(( ($currentFinancialYear[$sharedLevel] / 100) * $currentFinancialYear['budget']) / $sharedHealthFacilities->count()) : 0 }} </span>
                             <span class="font-weight-light">Current F.Y BUDGET</span>
                         </div>
 
@@ -81,8 +81,12 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                       Current FInancial Year
+                       <strong>Current FInancial Year {{ $currentFinancialYear['financial_year'] }}</strong>
+                       <div class="card-actions float-right">
+                         <button type="button" class="btn btn-outline-danger" name="button">{{ number_format($currentFinancialYear['budget']) }} UGX</button>
+                       </div>
                     </div>
+                    <hr>
                     <div class="card-body p-0">
                         @if($currentFinancialYear)
                         <div class="p-4">
@@ -91,8 +95,16 @@
 
                         <div class="justify-content-around mt-4 p-2 bg-light d-flex border-top d-md-down-none">
                             <div class="text-center">
-                                <div class="text-muted small">Referrals</div>
+                                <div class="text-muted small">National Referrals</div>
                                 <div>{{ $currentFinancialYear ? number_format(($currentFinancialYear->NRH/ 100 ) * $currentFinancialYear->budget) : 0 }} UGX ({{ $currentFinancialYear ? $currentFinancialYear->NRH : 0 }}%)</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-muted small">Regional Referrals</div>
+                                <div>{{ $currentFinancialYear ? number_format(($currentFinancialYear->RRH/ 100 ) * $currentFinancialYear->budget) : 0 }} UGX ({{ $currentFinancialYear ? $currentFinancialYear->NRH : 0 }}%)</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-muted small">Distrct Hospitals</div>
+                                <div>{{ $currentFinancialYear ? number_format(($currentFinancialYear->DH/ 100 ) * $currentFinancialYear->budget) : 0 }} UGX ({{ $currentFinancialYear ? $currentFinancialYear->NRH : 0 }}%)</div>
                             </div>
 
                             <div class="text-center">

@@ -10,7 +10,7 @@
 
     <div class="row text-center">
       @php
-        $percentageAmount = ( ($cycle->financialYear[$sharedLevel] / 100) * $cycle->financialYear['budget']/4);
+        $percentageAmount = ( (($cycle->financialYear[$sharedLevel] / 100) * $cycle->financialYear['budget']/4) / $sharedHealthFacilities->count());
       @endphp
       <div class="col-md-3">
         <div class="card rounded">
@@ -44,7 +44,7 @@
           <div class="card-body">
             <strong>Budget Used: {{ number_format( $cycle->orderLists()->sum('total_cost')) }} UGX</strong> <br>
             <span>Balance</span>
-            <h4>{{ number_format($percentageAmount - $cycle->orderLists()->sum('total_cost')) }} UGX</h4>
+            <h4 class="text-danger">{{ number_format($percentageAmount - $cycle->orderLists()->sum('total_cost')) }} UGX</h4>
           </div>
         </div>
       </div>
